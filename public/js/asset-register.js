@@ -1,16 +1,18 @@
 // 中分類マスタ
 const mediumCategories = {
-  '机類': ['生徒用机', '講師用机'],
-  '椅子類': ['生徒用椅子', '講師用椅子'],
-  'PC・周辺機器': ['デスクトップPC', 'ノートPC', 'プリンター', 'モニター'],
-  '教材・備品': ['ホワイトボード', 'プロジェクター', '本棚', '教材'],
+  'PC・IT機器': ['ノートPC', 'デスクトップPC', 'TV', 'モニター', 'タブレット', 'その他'],
+  '机': ['2人用', '4人用', '6人用', '折りたたみ', '丸テーブル', 'その他'],
+  '椅子': ['ダイニングチェア', 'アームチェア', 'カウンターチェア', 'スタッキングチェア', 'フォールディングチェア', 'リクライニングチェア', 'ゲーミングチェア', 'ソファ', 'その他'],
+  '事務用品・備品': ['ロッカー', 'キャビネット', 'ホワイトボード', 'パーテーション', 'その他'],
+  '什器等': ['本棚', '媒体スタンド', '棚板', 'フック', 'その他'],
+  '媒体': ['journal', 'members', '安全のしおり', 'カタログ', '統合報告書', 'その他'],
+  'デポ備品': ['デポ袋', 'モチーナ', 'セキュリティ関連', 'その他'],
   'その他': ['その他']
 };
 
 let selectedImages = [];
 let uploadedImageUrls = [];
 
-// ページ読み込み時
 document.addEventListener('DOMContentLoaded', async () => {
   // 拠点設定チェック
   }
@@ -100,42 +102,6 @@ function removeImage(index) {
   const container = document.getElementById('imagePreviewContainer');
   container.innerHTML = '';
   selectedImages.forEach(file => displayImagePreview(file));
-}
-
-// Step 2 へ移動
-function goToStep2() {
-  // Step 1 のバリデーション
-  const form = document.getElementById('registerForm');
-  const step1Inputs = form.querySelectorAll('#step1 [required]');
-  let isValid = true;
-  
-  step1Inputs.forEach(input => {
-    if (!input.checkValidity()) {
-      isValid = false;
-      input.reportValidity();
-    }
-  });
-  
-  if (!isValid) return;
-  
-  // 画像チェック
-  if (selectedImages.length === 0) {
-    alert('写真を最低1枚選択してください');
-    return;
-  }
-  
-  // Step 切り替え
-  document.getElementById('step1').style.display = 'none';
-  document.getElementById('step2').style.display = 'block';
-  window.scrollTo(0, 0);
-}
-
-// Step 1 へ戻る
-function goToStep1() {
-  document.getElementById('step2').style.display = 'none';
-  document.getElementById('step1').style.display = 'block';
-  window.scrollTo(0, 0);
-}
 
 // フォーム送信
 async function handleSubmit(e) {
@@ -143,7 +109,7 @@ async function handleSubmit(e) {
   
   const submitBtn = document.getElementById('submitBtn');
   submitBtn.disabled = true;
-  submitBtn.textContent = '出品中...';
+  submitBtn.textContent = '登録中...';
   
   try {
     // ユーザー情報取得
@@ -162,11 +128,6 @@ async function handleSubmit(e) {
       mediumCategory: document.getElementById('mediumCategory').value,
       itemName: document.getElementById('itemName').value,
       quantity: parseInt(document.getElementById('quantity').value),
-      size: document.getElementById('size').value || '',
-      condition: document.getElementById('condition').value || '',
-      transferCost: parseInt(document.getElementById('transferCost').value),
-      usageStatus: document.querySelector('input[name="usageStatus"]:checked').value,
-      notes: document.getElementById('notes').value || '',
       
       ownerUserId: userData.uid,
       ownerName: userData.displayName,
@@ -175,24 +136,22 @@ async function handleSubmit(e) {
       ownerRegionName: userData.regionName,
       ownerBlockName: userData.blockName,
       
-      status: 'available',
-      applicants: [],
       
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     
     // Firestore に保存
-    await db.collection('items').add(formData);
+    await db.collection('assets').add(formData);
     
-    alert('出品が完了しました！');
-    window.location.href = '/my-items.html';
+    alert('資産登録が完了しました！');
+    window.location.href = '/home.html';
     
   } catch (error) {
-    console.error('出品エラー:', error);
-    alert('出品に失敗しました: ' + error.message);
+    console.error('登録エラー:', error);
+    alert('資産登録に失敗しました: ' + error.message);
     submitBtn.disabled = false;
-    submitBtn.textContent = '出品する';
+    submitBtn.textContent = '資産登録する';
   }
 }
 
@@ -214,4 +173,5 @@ async function uploadImages() {
   }
   
   return urls;
+}
 }
