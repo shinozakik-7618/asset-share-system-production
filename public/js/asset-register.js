@@ -13,11 +13,6 @@ let uploadedImageUrls = [];
 // ページ読み込み時
 document.addEventListener('DOMContentLoaded', async () => {
   // 拠点設定チェック
-  const hasBase = await checkBaseSetup();
-  if (!hasBase) {
-    alert('拠点が設定されていません。管理者に連絡してください。');
-    window.location.href = '/home.html';
-    return;
   }
   
   // 大分類変更イベント

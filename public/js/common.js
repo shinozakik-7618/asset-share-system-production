@@ -54,21 +54,3 @@ function generateQRCode(text, size = 256) {
 }
 
 // 拠点設定チェック関数
-async function checkBaseSetup() {
-  if (!currentUser) return false;
-  
-  try {
-    const userDoc = await firebase.firestore()
-      .collection('users')
-      .doc(currentUser.uid)
-      .get();
-    
-    if (userDoc.exists && userDoc.data().baseId) {
-      return true;
-    }
-    return false;
-  } catch (error) {
-    console.error('拠点チェックエラー:', error);
-    return false;
-  }
-}
