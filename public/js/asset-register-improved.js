@@ -13,6 +13,66 @@ const mediumCategories = {
 let selectedFiles = [];
 
 // DOM読み込み完了後
+document.addEventListener('DOMContentLoaded', async () => {
+  // 拠点設定チェック
+  const hasBase = await showBaseSelectModal();
+  if (!hasBase) {
+    window.location.href = '/home.html';
+    return;
+  }
+
+  const cameraBtn = document.getElementById('cameraBtn');
+  const fileBtn = document.getElementById('fileBtn');
+  const cameraInput = document.getElementById('cameraInput');
+  const fileInput = document.getElementById('fileInput');
+  const dropArea = document.getElementById('dropArea');
+  const imagePreview = document.getElementById('imagePreview');
+  const largeCategorySelect = document.getElementById('largeCategory');
+  const registerForm = document.getElementById('registerForm');
+
+  // カメラボタン
+  cameraBtn.addEventListener('click', () => {
+    cameraInput.click();
+  });
+
+  // ファイル選択ボタン
+  fileBtn.addEventListener('click', () => {
+    fileInput.click();
+    dropArea.style.display = 'block';
+  });
+
+  // カメラ入力
+  cameraInput.addEventListener('change', handleFileSelect);
+
+  // ファイル入力
+  fileInput.addEventListener('change', handleFileSelect);
+
+  // ドラッグ&ドロップ
+  dropArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropArea.style.background = '#e3f2fd';
+  });
+
+  dropArea.addEventListener('dragleave', () => {
+    dropArea.style.background = '#f9f9f9';
+  });
+
+  dropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropArea.style.background = '#f9f9f9';
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    addFiles(files);
+  });
+
+  // 大分類変更
+  largeCategorySelect.addEventListener('change', updateMediumCategory);
+
+  // フォーム送信
+  registerForm.addEventListener('submit', handleSubmit);
+});
+
+// 以降は既存のコードをそのままコピー
+// DOM読み込み完了後
 document.addEventListener('DOMContentLoaded', () => {
   const cameraBtn = document.getElementById('cameraBtn');
   const fileBtn = document.getElementById('fileBtn');
@@ -169,6 +229,7 @@ function convertToJpeg(file) {
 
 // フォーム送信
 async function handleSubmit(e) {
+  const userData = await getCurrentUserData();
   e.preventDefault();
   
   if (selectedFiles.length === 0) {
