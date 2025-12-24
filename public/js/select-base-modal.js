@@ -9,7 +9,7 @@ async function getCurrentUserData() {
   return doc.data();
 }
 
-// 拠点選択モーダル
+// 拠点選択モーダル（新しいウィンドウで開く）
 async function showBaseSelectModal() {
   const userData = await getCurrentUserData();
   
@@ -18,37 +18,32 @@ async function showBaseSelectModal() {
     return true;
   }
 
-  // 拠点一覧を取得
-  const snapshot = await firebase.firestore().collection('baseMaster').get();
+  // 新しいウィンドウで拠点選択画面を開く
+  const modalWindow = window.open('/select-base-modal.html', 'baseSelect', 'width=700,height=600');
   
-  if (snapshot.empty) {
-    alert('拠点マスタが登録されていません。管理者に連絡してください。');
-    return false;
-  }
+  // ウィンドウが閉じられるまで待機
+  return new Promise((resolve) => {
+    const checkClosed = setInterval(() => {
+      if (modalWindow.closed) {
+        clearInterval(checkClosed);
+        // 拠点が設定されたか再確認
+        getCurrentUserData().then(data => {
+          if (data && data.baseId) {
+            resolve(true);
+          } else {
+            alert('拠点が選択されていません。資産登録には拠点の設定が必要です。');
+            resolve(false);
+          }
+        });
+      }
+    }, 500);
 
-  const baseList = snapshot.docs.map((doc, i) => `${i+1}. ${doc.data().baseName}`).join('\n');
-  const baseId = prompt('あなたの拠点を選択してください:\n\n' + baseList + '\n\n番号を入力してください:');
-
-  if (!baseId) {
-    alert('拠点が選択されていません。資産登録には拠点の設定が必要です。');
-    return false;
-  }
-
-  const index = parseInt(baseId) - 1;
-  const selectedDoc = snapshot.docs[index];
-  
-  if (!selectedDoc) {
-    alert('無効な番号です');
-    return false;
-  }
-
-  // Firestoreのユーザー情報を更新
-  const currentUser = firebase.auth().currentUser;
-  await firebase.firestore().collection('users').doc(currentUser.uid).update({
-    baseId: selectedDoc.id,
-    baseName: selectedDoc.data().baseName
+    // メッセージ受信（拠点選択完了）
+    window.addEventListener('message', (event) => {
+      if (event.data.baseSelected) {
+        clearInterval(checkClosed);
+        resolve(true);
+      }
+    });
   });
-
-  alert(`拠点「${selectedDoc.data().baseName}」を設定しました`);
-  return true;
 }

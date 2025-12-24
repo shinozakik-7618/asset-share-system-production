@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拠点選択</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .modal {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    .step-info {
+      color: #666;
+      margin-bottom: 20px;
+    }
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-item {
+      padding: 15px 20px;
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover {
+      background: #e3f2fd;
+      border-color: #2196F3;
+      transform: translateX(5px);
+    }
+    .breadcrumb {
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="modal">
+    <div id="content"></div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="/js/config.js"></script>
+  <script>
+    let allBases = [];
+    let selectedBlock = null;
+    let selectedRegion = null;
+
+    async function init() {
+      // 拠点データ取得
+      const snapshot = await firebase.firestore().collection('baseMaster').get();
+      snapshot.forEach(doc => {
+        const base = doc.data();
+        allBases.push({
+          id: doc.id,
+          name: base.baseName,
+          block: base.block || 'その他',
+          region: base.region || 'その他'
+        });
+      });
+
+      showBlockSelection();
+    }
+
+    function showBlockSelection() {
+      const blocks = [...new Set(allBases.map(b => b.block))].sort();
+      
+      let html = '<h2>拠点選択</h2>';
+      html += '<div class="step-info">ステップ1/3: ブロックを選択してください</div>';
+      html += '<div class="option-list">';
+      
+      blocks.forEach(block => {
+        html += `<div class="option-item" onclick="selectBlock('${block}')">${block}</div>`;
+      });
+      
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function selectBlock(block) {
+      selectedBlock = block;
+      showRegionSelection();
+    }
+
+    function showRegionSelection() {
+      const regions = [...new Set(allBases.filter(b => b.block === selectedBlock).map(b => b.region))].sort();
+      
+      let html = '<h2>拠点選択</h2>';
+      html += `<div class="breadcrumb">${selectedBlock}</div>`;
+      html += '<div class="step-info">ステップ2/3: 地域を選択してください</div>';
+      html += '<div class="option-list">';
+      
+      regions.forEach(region => {
+        html += `<div class="option-item" onclick="selectRegion('${region}')">${region}</div>`;
+      });
+      
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function selectRegion(region) {
+      selectedRegion = region;
+      showBaseSelection();
+    }
+
+    function showBaseSelection() {
+      const bases = allBases.filter(b => b.block === selectedBlock && b.region === selectedRegion).sort((a, b) => a.name.localeCompare(b.name));
+      
+      let html = '<h2>拠点選択</h2>';
+      html += `<div class="breadcrumb">${selectedBlock} &gt; ${selectedRegion}</div>`;
+      html += '<div class="step-info">ステップ3/3: 拠点を選択してください</div>';
+      html += '<div class="option-list">';
+      
+      bases.forEach(base => {
+        html += `<div class="option-item" onclick="selectBase('${base.id}', '${base.name}', '${base.block}', '${base.region}')">${base.name}</div>`;
+      });
+      
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    async function selectBase(id, name, block, region) {
+      const currentUser = firebase.auth().currentUser;
+      await firebase.firestore().collection('users').doc(currentUser.uid).update({
+        baseId: id,
+        baseName: name,
+        block: block,
+        region: region
+      });
+
+      alert(`拠点「${name}」を設定しました`);
+      window.opener.postMessage({ baseSelected: true }, '*');
+      window.close();
+    }
+
+    init();
+  </script>
+</body>
+</html>
