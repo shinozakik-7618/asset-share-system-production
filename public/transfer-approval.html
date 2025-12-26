@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>譲渡申請承認</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📋 譲渡申請承認</h1>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('pending')">承認待ち</button>
+      <button class="tab-btn" onclick="showTab('approved')">承認済み</button>
+      <button class="tab-btn" onclick="showTab('rejected')">却下</button>
+    </div>
+
+    <div id="pendingTab" class="tab-content">
+      <h2>承認待ちの譲渡申請</h2>
+      <div id="pendingList">読み込み中...</div>
+    </div>
+
+    <div id="approvedTab" class="tab-content" style="display:none;">
+      <h2>承認済み</h2>
+      <div id="approvedList">読み込み中...</div>
+    </div>
+
+    <div id="rejectedTab" class="tab-content" style="display:none;">
+      <h2>却下された申請</h2>
+      <div id="rejectedList">読み込み中...</div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/transfer-approval.js"></script>
+
+  <style>
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: #f0f0f0;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .tab-btn.active {
+      background: #2196F3;
+      color: white;
+    }
+    .tab-content {
+      animation: fadeIn 0.3s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .request-card {
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      background: white;
+    }
+    .request-card h3 {
+      margin-top: 0;
+      color: #333;
+    }
+    .request-info {
+      margin: 10px 0;
+      color: #666;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .btn-approve {
+      background: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-reject {
+      background: #f44336;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</body>
+</html>
