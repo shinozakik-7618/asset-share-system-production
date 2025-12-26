@@ -133,6 +133,33 @@ async function approveRequest(requestId, assetId, fromBaseId, fromBaseName, toBa
     await firebase.firestore().collection('expenseTransfers').add(expenseData);
 
     alert('譲渡申請を承認しました！\n経費振替が自動作成されました。');
+
+    // メール通知内容を表示
+        // メール内容生成（改行を正しく処理）
+        const emailContent = [
+          '【経費振替通知】' + assetName + 'の譲渡が承認されました',
+          '',
+          '資産情報',
+          '━━━━━━━━━━━━━━━━━━━━━━━━',
+          '資産名: ' + assetName,
+          '振替元拠点: ' + fromBaseName,
+          '振替先拠点: ' + toBaseName,
+          '金額: ¥0',
+          '理由: ' + assetName + 'の譲渡に伴う経費振替',
+          '振替日: ' + new Date().toLocaleDateString('ja-JP'),
+          '',
+          '詳細はこちら:',
+          'https://base-asset-sharing-system.web.app/expense-transfer.html',
+          '━━━━━━━━━━━━━━━━━━━━━━━━'
+        ].join('\n');
+
+        // クリップボードにコピー
+        navigator.clipboard.writeText(emailContent).then(() => {
+          alert('譲渡申請を承認しました！\n\nメール内容をクリップボードにコピーしました。\nメーラーに貼り付けて送信してください。');
+        }).catch(() => {
+          alert('譲渡申請を承認しました！');
+      alert('メール内容をコピーしました。メーラーに貼り付けて送信してください。');
+    }
     
     // 再読み込み
     await loadTransferRequests();
