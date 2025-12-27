@@ -155,11 +155,10 @@ async function approveRequest(requestId, assetId, fromBaseId, fromBaseName, toBa
 
         // クリップボードにコピー
         navigator.clipboard.writeText(emailContent).then(() => {
-          alert('譲渡申請を承認しました！\n\nメール内容をクリップボードにコピーしました。\nメーラーに貼り付けて送信してください。');
+          alert('譲渡申請を承認しました！\n\nメール内容:\n\n' + emailContent);
         }).catch(() => {
           alert('譲渡申請を承認しました！');
-      alert('メール内容をコピーしました。メーラーに貼り付けて送信してください。');
-    }
+      });
     
     // 再読み込み
     await loadTransferRequests();
