@@ -16,6 +16,7 @@
     </div>
 
     <form id="transferForm">
+      <!-- 譲渡先拠点 -->
       <div class="form-group">
         <label for="toBaseId">譲渡先拠点 <span style="color:red;">*</span></label>
         <select id="toBaseId" required>
@@ -23,16 +24,16 @@
         </select>
       </div>
 
+      <!-- 譲渡理由 -->
       <div class="form-group">
         <label for="reason">譲渡理由 <span style="color:red;">*</span></label>
-      
-
         <textarea id="reason" rows="4" required placeholder="譲渡理由を入力してください"></textarea>
       </div>
+
       <!-- 受け取り方法 -->
       <div class="form-group">
         <label for="deliveryMethod">受け取り方法 <span style="color: red;">*</span></label>
-        <select id="deliveryMethod" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+        <select id="deliveryMethod" required>
           <option value="">選択してください</option>
           <option value="pickup">引取（自分で取りに行く）</option>
           <option value="courier">宅急便</option>
