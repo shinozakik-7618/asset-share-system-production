@@ -153,8 +153,72 @@ async function deleteAsset(assetId, assetName, images) {
   }
 }
 
-// 資産を譲渡
-// 譲渡資産として公開
+async // QRコード表示・印刷
+function showQRCode(assetId, assetName, qrCodeDataURL) {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;';
+  
+  modal.innerHTML = `
+    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 400px; text-align: center;">
+      <h2 style="margin-bottom: 20px; color: #333;">${assetName}</h2>
+      <img src="${qrCodeDataURL}" alt="QRコード" style="width: 300px; height: 300px; border: 2px solid #ddd; border-radius: 8px;">
+      <div style="margin-top: 20px; display: flex; gap: 10px;">
+        <button onclick="printQRCode('${qrCodeDataURL}', '${assetName}')" class="btn" style="flex: 1; padding: 12px; background: #1976d2; color: white;">
+          🖨️ 印刷
+        </button>
+        <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" class="btn" style="flex: 1; padding: 12px; background: #666; color: white;">
+          閉じる
+        </button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+function printQRCode(qrCodeDataURL, assetName) {
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>QRコード印刷 - ${assetName}</title>
+      <style>
+        body { 
+          display: flex; 
+          flex-direction: column; 
+          align-items: center; 
+          justify-content: center; 
+          min-height: 100vh; 
+          margin: 0; 
+          font-family: Arial, sans-serif; 
+        }
+        h1 { margin-bottom: 20px; }
+        img { 
+          width: 300px; 
+          height: 300px; 
+          border: 2px solid #333; 
+          border-radius: 8px; 
+        }
+        @media print {
+          body { margin: 20px; }
+        }
+      </style>
+    </head>
+    <body>
+      <h1>${assetName}</h1>
+      <img src="${qrCodeDataURL}" alt="QRコード">
+      <script>
+        window.onload = function() {
+          window.print();
+        };
+      </script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
+}
+
 async function publishForTransfer(assetId) {
   if (!confirm('この資産を譲渡資産として公開しますか？\n他の拠点から譲渡申請が来るようになります。')) {
     return;
@@ -165,7 +229,7 @@ async function publishForTransfer(assetId) {
       forTransfer: true
     });
     alert('譲渡資産として公開しました！');
-    loadAssets(); // 再読み込み
+    loadMyItems(); // 再読み込み
   } catch (error) {
     console.error('公開エラー:', error);
     alert('公開に失敗しました: ' + error.message);

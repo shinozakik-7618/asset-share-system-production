@@ -207,7 +207,10 @@ async function handleSubmit(e) {
     };
 
     // Firestore保存
-    await firebase.firestore().collection('assets').add(assetData);
+    const docRef = await firebase.firestore().collection('assets').add(assetData);
+    
+    // QRコード生成は後で実装
+    // TODO: QRコード機能を追加
 
     alert('資産を登録しました！');
     window.location.href = '/my-items.html';
