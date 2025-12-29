@@ -74,7 +74,7 @@ function createAssetCard(asset) {
           <button onclick="editAsset('${asset.id}')" class="btn btn-primary" style="flex: 1; padding: 0.5rem;">編集</button>
           <button onclick="transferAsset('${asset.id}')" class="btn btn-secondary" style="flex: 1; padding: 0.5rem;">譲渡</button>
           ${!asset.forTransfer ? `<button onclick="publishForTransfer('${asset.id}'); event.stopPropagation();" class="btn" style="flex: 1; padding: 0.5rem; background: #4caf50; color: white;">譲渡資産として公開</button>` : `<span style="flex: 1; padding: 0.5rem; background: #e8f5e9; color: #2e7d32; text-align: center; border-radius: 4px; font-size: 13px;">✓ 公開中</span>`}
-          ${asset.qrCode ? `<button onclick="showQRCode('${asset.id}', '${asset.assetName}', '${asset.qrCode}'); event.stopPropagation();" class="btn" style="flex: 1; padding: 0.5rem; background: #2196f3; color: white;">📱 QRコード</button>` : ""}
+          ${asset.qrCodeText ? `<button onclick="showQRCode('${asset.id}', '${asset.assetName}', '${asset.qrCodeText}'); event.stopPropagation();" class="btn" style="flex: 1; padding: 0.5rem; background: #2196f3; color: white;">📱 QRコード</button>` : ""}
           <button onclick="toggleStatus('${asset.id}', '${asset.status}')" class="btn" style="flex: 1; padding: 0.5rem;">
             ${asset.status === 'available' ? '非公開にする' : '公開する'}
           </button>
@@ -247,25 +247,6 @@ function transferAsset(assetId) {
 }
 
 // QRコード表示・印刷
-function showQRCode(assetId, assetName, qrCodeDataURL) {
-  const modal = document.createElement('div');
-  modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 9999;';
-  
-  modal.innerHTML = `
-    <div style="background: white; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px;">
-      <h2 style="margin-bottom: 20px; color: #333;">${assetName}</h2>
-      <img src="${qrCodeDataURL}" style="width: 300px; height: 300px; border: 1px solid #ddd; border-radius: 8px;">
-      <div style="margin-top: 20px; display: flex; gap: 10px;">
-        <button onclick="printQRCode('${qrCodeDataURL}', '${assetName}')" class="btn" style="flex: 1; background: #1976d2; color: white; padding: 12px;">🖨️ 印刷</button>
-        <button onclick="this.closest('div').parentElement.remove()" class="btn" style="flex: 1; background: #666; color: white; padding: 12px;">閉じる</button>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
-}
-
 function printQRCode(qrCodeDataURL, assetName) {
   const printWindow = window.open('', '_blank');
   printWindow.document.write(`
@@ -281,6 +262,51 @@ function printQRCode(qrCodeDataURL, assetName) {
       <body>
         <h1>${assetName}</h1>
         <img src="${qrCodeDataURL}">
+        <script>window.onload = () => { window.print(); window.close(); }<\/script>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+}
+
+// QRコード表示
+// QRコード表示（Google Chart API使用）
+function showQRCode(assetId, assetName, qrCodeText) {
+  const qrCodeURL = `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${encodeURIComponent(qrCodeText)}&choe=UTF-8`;
+  
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 9999;';
+  
+  modal.innerHTML = `
+    <div style="background: white; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px;">
+      <h2 style="margin-bottom: 20px; color: #333;">${assetName}</h2>
+      <img src="${qrCodeURL}" style="width: 300px; height: 300px; border: 1px solid #ddd; border-radius: 8px;">
+      <div style="margin-top: 20px; display: flex; gap: 10px;">
+        <button onclick="printQRCodeFromURL('${qrCodeURL}', '${assetName}')" class="btn" style="flex: 1; background: #1976d2; color: white; padding: 12px;">🖨️ 印刷</button>
+        <button onclick="this.closest('div').parentElement.remove()" class="btn" style="flex: 1; background: #666; color: white; padding: 12px;">閉じる</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+function printQRCodeFromURL(qrCodeURL, assetName) {
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>QRコード - ${assetName}</title>
+        <style>
+          body { text-align: center; padding: 20px; font-family: sans-serif; }
+          h1 { margin-bottom: 20px; }
+          img { width: 300px; height: 300px; }
+        </style>
+      </head>
+      <body>
+        <h1>${assetName}</h1>
+        <img src="${qrCodeURL}">
         <script>window.onload = () => { window.print(); window.close(); }<\/script>
       </body>
     </html>
