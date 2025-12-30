@@ -1,4 +1,19 @@
 // 中分類マスタ
+// 拠点情報を取得してlocalStorageに保存
+const currentUser = firebase.auth().currentUser;
+if (currentUser) {
+  firebase.firestore().collection('users').doc(currentUser.uid).get().then(userDoc => {
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      if (userData.baseId) {
+        localStorage.setItem('selectedBaseId', userData.baseId);
+        localStorage.setItem('selectedBaseName', userData.baseName || '');
+        localStorage.setItem('selectedRegion', userData.region || '');
+        localStorage.setItem('selectedBlock', userData.block || '');
+      }
+    }
+  });
+}
 const mediumCategories = {
   'PC・IT機器': ['ノートPC', 'デスクトップPC', 'TV', 'モニター', 'タブレット', 'その他'],
   '机': ['2人用', '4人用', '6人用', '折りたたみ', '丸テーブル', 'その他'],
@@ -190,6 +205,8 @@ async function handleSubmit(e) {
       quantity: parseInt(document.getElementById('quantity').value),
       largeCategory: document.getElementById('largeCategory').value,
       mediumCategory: document.getElementById('mediumCategory').value,
+      largeCategoryName: document.getElementById("largeCategory").selectedOptions[0]?.text || "",
+      mediumCategoryName: document.getElementById("mediumCategory").selectedOptions[0]?.text || "",
       size: {
         width: document.getElementById('width').value || null,
         depth: document.getElementById('depth').value || null,
@@ -200,6 +217,8 @@ async function handleSubmit(e) {
       userId: firebase.auth().currentUser.uid,
       userEmail: firebase.auth().currentUser.email,
       baseId: localStorage.getItem('selectedBaseId') || '',
+      region: localStorage.getItem("selectedRegion") || "",
+      block: localStorage.getItem("selectedBlock") || "",
       baseName: localStorage.getItem('selectedBaseName') || '',
       status: 'available',
       forTransfer: false,

@@ -140,6 +140,11 @@
 
     async function selectBase(id, name, block, region) {
       const currentUser = firebase.auth().currentUser;
+      // localStorageに保存
+      localStorage.setItem("selectedBaseId", id);
+      localStorage.setItem("selectedBaseName", name);
+      localStorage.setItem("selectedRegion", region || "");
+      localStorage.setItem("selectedBlock", block || "");
       await firebase.firestore().collection('users').doc(currentUser.uid).update({
         baseId: id,
         baseName: name,
