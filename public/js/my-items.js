@@ -200,3 +200,24 @@ function printQRCodeFromURL(qrCodeURL, assetName) {
 function transferAsset(assetId) {
   window.location.href = `/transfer-request.html?id=${assetId}`;
 }
+
+// 譲渡資産として公開
+async function publishForTransfer(assetId) {
+  if (!confirm('この資産を譲渡資産として公開しますか？\n他の拠点から譲渡申請が来るようになります。')) {
+    return;
+  }
+
+  try {
+    await firebase.firestore().collection('assets').doc(assetId).update({
+      forTransfer: true,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    alert('譲渡資産として公開しました！');
+    loadMyItems();
+
+  } catch (error) {
+    console.error('公開エラー:', error);
+    alert('公開に失敗しました: ' + error.message);
+  }
+}
