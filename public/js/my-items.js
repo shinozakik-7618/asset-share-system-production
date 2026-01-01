@@ -221,3 +221,51 @@ async function publishForTransfer(assetId) {
     alert('公開に失敗しました: ' + error.message);
   }
 }
+
+// CSV出力機能
+function exportToCSV() {
+  const csvRows = [];
+  
+  // ヘッダー行
+  csvRows.push(['資産名', '大分類', '中分類', '数量', '拠点', '地域', 'ブロック', '登録日'].join(','));
+  
+  // データ行
+  firebase.firestore().collection('assets')
+    .where('userId', '==', firebase.auth().currentUser.uid)
+    .orderBy('createdAt', 'desc')
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        const asset = doc.data();
+        const row = [
+          `"${asset.assetName || ''}"`,
+          `"${asset.largeCategoryName || asset.largeCategory || ''}"`,
+          `"${asset.mediumCategoryName || asset.mediumCategory || ''}"`,
+          asset.quantity || '',
+          `"${asset.baseName || ''}"`,
+          `"${asset.region || ''}"`,
+          `"${asset.block || ''}"`,
+          asset.createdAt ? new Date(asset.createdAt.seconds * 1000).toLocaleDateString('ja-JP') : ''
+        ];
+        csvRows.push(row.join(','));
+      });
+      
+      // CSV文字列を作成
+      const csvContent = '\uFEFF' + csvRows.join('\n');
+      
+      // ダウンロード
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `資産一覧_${new Date().toLocaleDateString('ja-JP').replace(/\//g, '')}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    })
+    .catch(error => {
+      console.error('CSV出力エラー:', error);
+      alert('CSV出力に失敗しました');
+    });
+}
