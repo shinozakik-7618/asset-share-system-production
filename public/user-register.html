@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ユーザー登録 - 拠点資産シェアシステム</title>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="header-title">👤 ユーザー登録</div>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <form id="userRegisterForm" class="form-container">
+      <div class="form-group">
+        <label for="displayName">お名前 <span style="color: red;">*</span></label>
+        <input type="text" id="displayName" required placeholder="山田 太郎">
+      </div>
+
+      <div class="form-group">
+        <label for="block">ブロック <span style="color: red;">*</span></label>
+        <select id="block" required>
+          <option value="">ブロックを選択してください</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="region">地域 <span style="color: red;">*</span></label>
+        <select id="region" required disabled>
+          <option value="">地域を選択してください</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="baseId">拠点 <span style="color: red;">*</span></label>
+        <select id="baseId" required disabled>
+          <option value="">拠点を選択してください</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%;">登録する</button>
+    </form>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/user-register.js"></script>
+</body>
+</html>
