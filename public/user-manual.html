@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 ユーザーマニュアル - 拠点資産シェアシステム</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Mequilibrium, Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.8;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      text-align: center;
+      color: #667eea;
+      font-size: 36px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .btn-pdf {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s;
+    }
+    .btn-pdf:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+    .toc {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 40px;
+    }
+    .toc h2 {
+      color: #667eea;
+      font-size: 24px;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+    }
+    .toc-list li {
+      margin: 12px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+    .toc-list li:before {
+      content: "📌";
+      position: absolute;
+      left: 0;
+    }
+    .toc-list a {
+      color: #764ba2;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .toc-list a:hover {
+      color: #667eea;
+      padding-left: 10px;
+    }
+    .section {
+      margin: 40px 0;
+      padding: 30px;
+      background: #fafafa;
+      border-radius: 15px;
+      border-left: 5px solid #667eea;
+    }
+    .section h2 {
+      color: #667eea;
+      font-size: 28px;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+    .step {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 12px;
+      border: 2px solid #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .step-number {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 35px;
+      font-weight: bold;
+      margin-right: 15px;
+      font-size: 18px;
+    }
+    .step-content {
+      display: inline-block;
+      vertical-align: top;
+      width: calc(100% - 60px);
+      font-size: 16px;
+      color: #333;
+    }
+    .tip-box {
+      background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+      border-left: 5px solid #ffc107;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+    .tip-box:before {
+      content: "💡 ";
+      font-size: 24px;
+    }
+    .warning-box {
+      background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+      border-left: 5px solid #f44336;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+    .warning-box:before {
+      content: "⚠️ ";
+      font-size: 24px;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .comparison-table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-size: 16px;
+    }
+    .comparison-table td {
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    .highlight {
+      background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-weight: 600;
+      color: #f57c00;
+    }
+    .faq-item {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 10px;
+      border-left: 4px solid #764ba2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .faq-question {
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .faq-answer {
+      color: #555;
+      line-height: 1.8;
+    }
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        padding: 20px;
+        max-width: 100%;
+      }
+      .header-buttons {
+        display: none;
+      }
+      .section {
+        page-break-inside: avoid;
+        background: white;
+        border: 1px solid #e0e0e0;
+      }
+      .step {
+        page-break-inside: avoid;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 15mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 ユーザーマニュアル</h1>
+    <div class="subtitle">拠点資産シェアシステムの使い方を分かりやすく説明します</div>
+    
+    <div class="header-buttons">
+      <button class="btn-pdf" onclick="printToPDF()">📄 PDF出力</button>
+    </div>
+
+    <!-- 目次 -->
+    <div class="toc">
+      <h2>📖 目次</h2>
+      <ul class="toc-list">
+        <li><a href="#login">1. ログイン方法</a></li>
+        <li><a href="#register">2. 資産を登録する</a></li>
+        <li><a href="#edit">3. 資産を編集・削除する</a></li>
+        <li><a href="#public-difference">4. 「公開」と「譲渡資産として公開」の違い</a></li>
+        <li><a href="#transfer">5. 譲渡申請の方法</a></li>
+        <li><a href="#statistics">6. 統計画面の見方</a></li>
+        <li><a href="#notifications">7. 通知の使い方</a></li>
+        <li><a href="#settings">8. 設定画面での情報変更</a></li>
+        <li><a href="#faq">9. よくある質問（FAQ）</a></li>
+      </ul>
+    </div>
+
+    <!-- 1. ログイン方法 -->
+    <div class="section" id="login">
+      <h2>🔐 1. ログイン方法</h2>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <strong>システムのURL（https://base-asset-sharing-system.web.app/home.html）にアクセス</strong><br>
+          ブラウザでURLを開いてください
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <strong>メールアドレスとパスワードを入力</strong><br>
+          登録済みのメールアドレスとパスワードを入力します
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <strong>「ログイン」ボタンをクリック</strong><br>
+          入力が完了したらログインボタンを押します
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>ヒント：</strong> 初回ログイン時は、ユーザー登録画面で名前と拠点を設定してください
+      </div>
+    </div>
+
+    <!-- 2. 資産を登録する -->
+    <div class="section" id="register">
+      <h2>📝 2. 資産を登録する</h2>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <strong>ホーム画面の「➕ 資産登録」ボタンをクリック</strong><br>
+          左側のメニューから選択します
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <strong>必要な情報を入力</strong><br>
+          • 資産名（例：ノートパソコン Dell Latitude）<br>
+          • 数量<br>
+          • <span class="highlight">金額（税抜）</span> ← 新しく追加されました！<br>
+          • 大分類・中分類（カテゴリ）<br>
+          • サイズ（任意）<br>
+          • メモ（任意）
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <strong>画像を追加（任意）</strong><br>
+          「画像を選択」ボタンをクリックして、資産の写真を追加できます
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">4</span>
+        <div class="step-content">
+          <strong>「💾 登録する」ボタンをクリック</strong><br>
+          入力内容を確認して登録します
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>ヒント：</strong> 資産登録時に金額を入力すると、経費振替の際に自動的に反映されます
+      </div>
+    </div>
+
+    <!-- 3. 資産を編集・削除する -->
+    <div class="section" id="edit">
+      <h2>✏️ 3. 資産を編集・削除する</h2>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <strong>ホーム画面の「📦 登録資産」をクリック</strong><br>
+          自分が登録した資産の一覧が表示されます
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <strong>編集したい資産の「編集」ボタンをクリック</strong><br>
+          資産カードの下部にあるボタンから選択します
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <strong>情報を修正して「💾 保存する」をクリック</strong><br>
+          変更内容が保存され、履歴にも記録されます
+        </div>
+      </div>
+
+      <div class="warning-box">
+        <strong>注意：</strong> 削除した資産は復元できません。削除前に必ず確認してください
+      </div>
+    </div>
+
+    <!-- 4. 「公開」と「譲渡資産として公開」の違い -->
+    <div class="section" id="public-difference">
+      <h2>🎯 4. 「公開」と「譲渡資産として公開」の違い</h2>
+      
+      <p style="font-size: 18px; color: #333; margin-bottom: 25px;">
+        この2つの設定は<strong>別々の機能</strong>です。以下の図で違いを理解しましょう：
+      </p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>「公開」の設定</th>
+            <th>「譲渡資産として公開」の設定</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>目的</strong></td>
+            <td>資産を検索可能にする基本設定</td>
+            <td>積極的に譲渡したい資産としてマーク</td>
+          </tr>
+          <tr>
+            <td><strong>効果</strong></td>
+            <td>✅ ホーム画面の資産一覧に表示される<br>✅ 他のユーザーが閲覧可能<br>✅ ステータスが「出品中」になる</td>
+            <td>✅ 「譲渡申請資産」タブに表示される<br>✅ 譲渡可能な資産として目立つ<br>✅ 他拠点からの申請を促進</td>
+          </tr>
+          <tr>
+            <td><strong>対義語</strong></td>
+            <td>❌ 非公開</td>
+            <td>❌ 公開解除</td>
+          </tr>
+          <tr>
+            <td><strong>使い道</strong></td>
+            <td>• 通常の運用<br>• 一時的に非表示にしたい時に切り替え</td>
+            <td>• 余剰資産を他拠点に譲る時<br>• 積極的に手放したい資産をアピール</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip-box" style="margin-top: 30px;">
+        <strong>💡 重要なポイント：</strong><br>
+        <span class="highlight">「公開」が❌非公開の場合、「譲渡資産として公開」を設定しても誰も見られません！</span><br>
+        他の拠点に譲りたい時は、必ず両方とも設定してください：<br>
+        1️⃣ 「公開」を ✅ にする<br>
+        2️⃣ 「譲渡資産として公開」を ✅ にする
+      </div>
+
+      <h3 style="color: #667eea; margin-top: 30px;">📊 4つのパターン</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>公開</th>
+            <th>譲渡資産として公開</th>
+            <th>結果</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>✅ 公開</td>
+            <td>❌ 未設定</td>
+            <td>通常の資産として表示される</td>
+          </tr>
+          <tr>
+            <td>✅ 公開</td>
+            <td>✅ 設定</td>
+            <td style="background: #e8f5e9;">🎉 <strong>譲渡可能資産として目立つ（理想的！）</strong></td>
+          </tr>
+          <tr>
+            <td>❌ 非公開</td>
+            <td>❌ 未設定</td>
+            <td>誰も見られない</td>
+          </tr>
+          <tr>
+            <td>❌ 非公開</td>
+            <td>✅ 設定</td>
+            <td style="background: #ffebee;">⚠️ <strong>誰も見られない（注意！）</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 5. 譲渡申請の方法 -->
+    <div class="section" id="transfer">
+      <h2>🔄 5. 譲渡申請の方法</h2>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <strong>ホーム画面で譲渡したい資産を探す</strong><br>
+          「譲渡申請資産」タブで探すと見つけやすいです
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <strong>資産カードの「譲渡申請」ボタンをクリック</strong><br>
+          申請フォームが表示されます
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <strong>必要な情報を入力</strong><br>
+          • 譲渡先の拠点<br>
+          • 申請理由<br>
+          • 配送方法（持ち込み/配送）
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">4</span>
+        <div class="step-content">
+          <strong>「📤 譲渡申請を送信」ボタンをクリック</strong><br>
+          申請が送信され、資産の所有者に通知が届きます
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>ヒント：</strong> 申請後は「🔔 通知」から承認・却下の結果を確認できます
+      </div>
+    </div>
+
+    <!-- 6. 統計画面の見方 -->
+    <div class="section" id="statistics">
+      <h2>📊 6. 統計画面の見方</h2>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <strong>ホーム画面の「📊 統計」ボタンをクリック</strong><br>
+          ヘッダーのボタンから統計画面を開きます
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <strong>4つの統計カードを確認</strong><br>
+          • 総資産数：システム全体の資産数<br>
+          • 登録資産数：自分が登録した資産数<br>
+          • 承認待ち：処理待ちの申請数<br>
+          • カテゴリ数：資産のカテゴリ種類数
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <strong>グラフで視覚的に確認</strong><br>
+          • カテゴリ別資産数（円グラフ）<br>
+          • 月別登録数（棒グラフ）<br>
+          • 拠点別資産数（棒グラフ）
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. 通知の使い方 -->
+    <div class="section" id="notifications">
+      <h2>🔔 7. 通知の使い方</h2>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <strong>ヘッダーの「🔔 通知」ボタンをクリック</strong><br>
+          未読の通知がある場合、赤いバッジに数字が表示されます
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <strong>通知の種類を確認</strong><br>
+          • 📥 譲渡申請が届きました<br>
+          • ✅ 譲渡申請が承認されました<br>
+          • ❌ 譲渡申請が却下されました
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <strong>通知をクリックして詳細を確認</strong><br>
+          通知をクリックすると、関連する資産の履歴画面に移動します
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>ヒント：</strong> 「すべて既読にする」ボタンで一括既読にできます
+      </div>
+    </div>
+
+    <!-- 8. 設定画面での情報変更 -->
+    <div class="section" id="settings">
+      <h2>⚙️ 8. 設定画面での情報変更</h2>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <strong>ヘッダーの「⚙️ 設定」ボタンをクリック</strong><br>
+          ユーザー設定画面が開きます
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <strong>既存情報が自動で表示されます</strong><br>
+          現在の名前、ブロック、地域、拠点が自動入力されます
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <strong>変更したい項目を修正</strong><br>
+          • お名前<br>
+          • ブロック<br>
+          • 地域<br>
+          • 拠点
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">4</span>
+        <div class="step-content">
+          <strong>「保存する」ボタンをクリック</strong><br>
+          変更内容が保存されます
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>ヒント：</strong> 保存せずに戻る場合は「← ホームに戻る」ボタンをクリックしてください
+      </div>
+    </div>
+
+    <!-- 9. よくある質問（FAQ） -->
+    <div class="section" id="faq">
+      <h2>❓ 9. よくある質問（FAQ）</h2>
+      
+      <div class="faq-item">
+        <div class="faq-question">Q. パスワードを忘れた場合はどうすればいいですか？</div>
+        <div class="faq-answer">A. システム管理者にお問い合わせください。パスワードのリセットを行います。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Q. 資産の画像は何枚まで登録できますか？</div>
+        <div class="faq-answer">A. 1つの資産につき最大5枚まで画像を登録できます。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Q. 譲渡申請を取り消すことはできますか？</div>
+        <div class="faq-answer">A. はい、承認前であれば取り消すことができます。「譲渡申請」画面から取り消しボタンをクリックしてください。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Q. QRコードは何に使いますか？</div>
+        <div class="faq-answer">A. QRコードをスキャンすると、その資産の詳細ページに直接アクセスできます。資産の共有に便利です。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Q. 「公開」と「譲渡資産として公開」の違いは？</div>
+        <div class="faq-answer">A. <a href="#public-difference" style="color: #667eea; text-decoration: underline;">「公開」と「譲渡資産として公開」の違い</a>のセクションで詳しく説明しています。</div>
+      </div>
+    </div>
+
+    <!-- サポート情報 -->
+    <div class="section">
+      <h2>📞 サポート情報</h2>
+      <p style="font-size: 16px; line-height: 1.8;">
+        ご不明な点がございましたら、お気軽にお問い合わせください。
+      </p>
+      <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
+        <p><strong>📧 お問い合わせ：</strong> システム管理者のメールアドレス</p>
+        <p><strong>⏰ 対応時間：</strong> 平日 9:00-18:00</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    function printToPDF() {
+      window.print();
+    }
+  </script>
+</body>
+</html>
