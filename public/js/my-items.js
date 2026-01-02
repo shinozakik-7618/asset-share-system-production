@@ -75,6 +75,7 @@ function createAssetCard(asset) {
   
   card.innerHTML = `
     <div style="display: flex; gap: 1rem;">
+      <input type="checkbox" class="asset-checkbox" data-asset-id="${asset.id}" style="width: 20px; height: 20px; cursor: pointer;">
       ${asset.images && asset.images.length > 0 ? 
         `<img src="${asset.images[0]}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">` : 
         '<div style="width: 100px; height: 100px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📦</div>'
@@ -328,4 +329,90 @@ function displayFilteredAssets(assets) {
   assets.forEach(asset => {
     assetList.appendChild(createAssetCard(asset));
   });
+}
+
+// チェックボックスの状態を監視
+document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('change', (e) => {
+    if (e.target.classList.contains('asset-checkbox')) {
+      updateBulkActions();
+    }
+  });
+});
+
+// 一括操作UIを更新
+function updateBulkActions() {
+  const checkboxes = document.querySelectorAll('.asset-checkbox:checked');
+  const bulkActions = document.getElementById('bulkActions');
+  const selectedCount = document.getElementById('selectedCount');
+  
+  if (checkboxes.length > 0) {
+    bulkActions.style.display = 'block';
+    selectedCount.textContent = `${checkboxes.length}件選択中`;
+  } else {
+    bulkActions.style.display = 'none';
+  }
+}
+
+// 選択をクリア
+function clearSelection() {
+  document.querySelectorAll('.asset-checkbox:checked').forEach(cb => cb.checked = false);
+  updateBulkActions();
+}
+
+// 一括削除
+async function bulkDelete() {
+  const checkboxes = document.querySelectorAll('.asset-checkbox:checked');
+  const count = checkboxes.length;
+  
+  if (!confirm(`選択した${count}件の資産を削除しますか?\nこの操作は取り消せません。`)) {
+    return;
+  }
+  
+  try {
+    const promises = Array.from(checkboxes).map(cb => {
+      const assetId = cb.dataset.assetId;
+      return firebase.firestore().collection('assets').doc(assetId).delete();
+    });
+    
+    await Promise.all(promises);
+    alert(`${count}件の資産を削除しました`);
+    loadMyItems();
+    
+  } catch (error) {
+    console.error('一括削除エラー:', error);
+    alert('削除に失敗しました');
+  }
+}
+
+// 一括公開/非公開切り替え
+async function bulkToggleStatus() {
+  const checkboxes = document.querySelectorAll('.asset-checkbox:checked');
+  const count = checkboxes.length;
+  
+  if (!confirm(`選択した${count}件の資産の公開/非公開を切り替えますか?`)) {
+    return;
+  }
+  
+  try {
+    const promises = Array.from(checkboxes).map(async (cb) => {
+      const assetId = cb.dataset.assetId;
+      const doc = await firebase.firestore().collection('assets').doc(assetId).get();
+      const currentStatus = doc.data().status;
+      const newStatus = currentStatus === 'available' ? 'unavailable' : 'available';
+      
+      return firebase.firestore().collection('assets').doc(assetId).update({
+        status: newStatus,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    });
+    
+    await Promise.all(promises);
+    alert(`${count}件の資産のステータスを更新しました`);
+    loadMyItems();
+    
+  } catch (error) {
+    console.error('一括更新エラー:', error);
+    alert('更新に失敗しました');
+  }
 }

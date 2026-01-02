@@ -48,6 +48,14 @@
           <option value="available">公開中</option>
           <option value="unavailable">非公開</option>
         </select>
+
+    <!-- 一括操作 -->
+    <div id="bulkActions" style="display: none; background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+      <button onclick="bulkDelete()" class="btn" style="background: #f44336; color: white; margin-right: 10px;">選択した資産を削除</button>
+      <button onclick="bulkToggleStatus()" class="btn" style="background: #1976d2; color: white; margin-right: 10px;">公開/非公開を切り替え</button>
+      <button onclick="clearSelection()" class="btn" style="background: #999; color: white;">選択をクリア</button>
+      <span id="selectedCount" style="margin-left: 15px; font-weight: bold;">0件選択中</span>
+    </div>
       </div>
     </div>
     <div id="loading" style="text-align: center; padding: 2rem;">
