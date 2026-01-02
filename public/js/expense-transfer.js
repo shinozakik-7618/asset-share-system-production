@@ -135,7 +135,7 @@ async function loadExpenseHistory() {
               <p style="margin: 5px 0;"><strong>資産名:</strong> ${expense.assetName || '未設定'}</p>
               <p style="margin: 5px 0;"><strong>振替元:</strong> ${expense.fromBaseName}</p>
               <p style="margin: 5px 0;"><strong>振替先:</strong> ${expense.toBaseName}</p>
-              <p style="margin: 5px 0;"><strong>金額:</strong> ¥${Number(expense.amount).toLocaleString()}</p>
+              <p style="margin: 5px 0;"><strong>金額(税抜):</strong> ¥${Number(expense.amount).toLocaleString()}</p>
               <p style="margin: 5px 0;"><strong>振替日:</strong> ${date}</p>
               <p style="margin: 5px 0;"><strong>理由:</strong> ${expense.reason}</p>
               <p style="margin: 5px 0; font-size: 0.9em; color: #666;"><strong>登録者:</strong> ${expense.userEmail}</p>
