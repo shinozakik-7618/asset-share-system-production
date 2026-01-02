@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ユーザー登録 - 拠点資産シェアシステム</title>
+  <title>ユーザー設定 - 拠点資産シェアシステム</title>
   <link rel="stylesheet" href="/css/style.css">
   
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -13,7 +13,10 @@
 <body>
   <header class="header">
     <div class="container header-content">
-      <div class="header-title">👤 ユーザー登録</div>
+      <div class="header-title">👤 ユーザー設定</div>
+      <div class="header-user">
+        <button class="btn" onclick="location.href='/home.html'" style="padding: 8px 16px; font-size: 14px; background: white; color: #1976d2; border: 2px solid #1976d2;">← ホームに戻る</button>
+      </div>
     </div>
   </header>
 
@@ -45,7 +48,7 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width: 100%;">登録する</button>
+      <button type="submit" class="btn btn-primary" style="width: 100%;">保存する</button>
     </form>
   </main>
 

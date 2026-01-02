@@ -3,6 +3,7 @@ let allBases = [];
 document.addEventListener('DOMContentLoaded', async () => {
   // 拠点一覧を読み込み
   await loadBases();
+  setTimeout(loadUserInfo, 1000);
   
   // ブロック選択時
   document.getElementById('block').addEventListener('change', handleBlockChange);
@@ -146,3 +147,47 @@ async function handleSubmit(e) {
     alert('登録に失敗しました: ' + error.message);
   }
 }
+
+// ページ読み込み時に既存情報を読み込む
+async function loadUserInfo() {
+  try {
+    const currentUser = firebase.auth().currentUser;
+    if (!currentUser) return;
+    
+    const userDoc = await firebase.firestore()
+      .collection('users')
+      .doc(currentUser.uid)
+      .get();
+    
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      
+      // 表示名を設定
+      document.getElementById('displayName').value = userData.displayName || '';
+      
+      // 拠点情報を設定（ブロック・地域・拠点の順に設定）
+      if (userData.block) {
+        const blockSelect = document.getElementById('block');
+        blockSelect.value = userData.block;
+        handleBlockChange(); // 地域リストを更新
+        
+        setTimeout(() => {
+          if (userData.region) {
+            const regionSelect = document.getElementById('region');
+            regionSelect.value = userData.region;
+            handleRegionChange(); // 拠点リストを更新
+            
+            setTimeout(() => {
+              if (userData.baseId) {
+                document.getElementById('baseId').value = userData.baseId;
+              }
+            }, 100);
+          }
+        }, 100);
+      }
+    }
+  } catch (error) {
+    console.error('ユーザー情報読み込みエラー:', error);
+  }
+}
+
