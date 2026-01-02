@@ -77,7 +77,7 @@ function createAssetCard(asset) {
     <div style="display: flex; gap: 1rem;">
       <input type="checkbox" class="asset-checkbox" data-asset-id="${asset.id}" style="width: 20px; height: 20px; cursor: pointer;">
       ${asset.images && asset.images.length > 0 ? 
-        `<img src="${asset.images[0]}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">` : 
+        `<img loading="lazy" src="${asset.images[0]}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">` : 
         '<div style="width: 100px; height: 100px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📦</div>'
       }
       <div style="flex: 1;">

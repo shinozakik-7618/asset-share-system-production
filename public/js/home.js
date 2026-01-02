@@ -215,6 +215,7 @@ async function loadItems() {
   try {
     const snapshot = await db.collection('assets')
       .orderBy('createdAt', 'desc')
+      .limit(100)
       .get();
     
     allItems = snapshot.docs.map(doc => ({
