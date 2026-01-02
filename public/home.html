@@ -66,6 +66,26 @@
       <input type="text" id="searchInput" placeholder="🔍 資産を検索..." class="search-input">
     </div>
 
+
+    <!-- 統計情報 -->
+    <div id="statistics" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; padding: 20px; background: #f5f5f5; border-radius: 12px;">
+      <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="font-size: 32px; font-weight: bold; color: #1976d2;" id="totalAssets">0</div>
+        <div style="color: #666; margin-top: 5px;">総資産数</div>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="font-size: 32px; font-weight: bold; color: #4caf50;" id="myAssets">0</div>
+        <div style="color: #666; margin-top: 5px;">登録資産数</div>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="font-size: 32px; font-weight: bold; color: #ff9800;" id="pendingRequests">0</div>
+        <div style="color: #666; margin-top: 5px;">承認待ち申請</div>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="font-size: 32px; font-weight: bold; color: #9c27b0;" id="categoryCount">0</div>
+        <div style="color: #666; margin-top: 5px;">カテゴリ数</div>
+      </div>
+    </div>
     <!-- タブ切り替え -->
     <div style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #e0e0e0;">
       <button id="tabRegistered" class="main-tab-btn active" style="padding: 10px 20px; border: none; background: none; cursor: pointer; border-bottom: 3px solid #1976d2; font-weight: 600; color: #1976d2;">登録資産</button>

@@ -363,3 +363,58 @@ function requestTransfer(itemId) {
 function viewItemDetail(itemId) {
   window.location.href = `/asset-detail.html?id=${itemId}`;
 }
+
+// 統計情報を読み込む
+async function loadStatistics() {
+  try {
+    const currentUser = firebase.auth().currentUser;
+    
+    // 総資産数
+    const allAssetsSnapshot = await firebase.firestore()
+      .collection('assets')
+      .where('status', '==', 'available')
+      .get();
+    document.getElementById('totalAssets').textContent = allAssetsSnapshot.size;
+    
+    // 登録資産数
+    const myAssetsSnapshot = await firebase.firestore()
+      .collection('assets')
+      .where('userId', '==', currentUser.uid)
+      .get();
+    document.getElementById('myAssets').textContent = myAssetsSnapshot.size;
+    
+    // 承認待ち申請数
+    const pendingSnapshot = await firebase.firestore()
+      .collection('transferRequests')
+      .where('fromUserId', '==', currentUser.uid)
+      .where('status', '==', 'pending')
+      .get();
+    document.getElementById('pendingRequests').textContent = pendingSnapshot.size;
+    
+    // カテゴリ数
+    const categories = new Set();
+    allAssetsSnapshot.forEach(doc => {
+      const asset = doc.data();
+      if (asset.largeCategory) {
+        categories.add(asset.largeCategory);
+      }
+      if (asset.largeCategoryName) {
+        categories.add(asset.largeCategoryName);
+      }
+    });
+    document.getElementById('categoryCount').textContent = categories.size;
+    
+  } catch (error) {
+    console.error('統計情報読み込みエラー:', error);
+  }
+}
+
+
+// ページ読み込み時に統計情報を表示
+document.addEventListener('DOMContentLoaded', () => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      loadStatistics();
+    }
+  });
+});
