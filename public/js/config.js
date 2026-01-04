@@ -1,25 +1,19 @@
-// Firebase 設定
+// Firebase設定
 const firebaseConfig = {
-  apiKey: "AIzaSyBK-3xf-GxsWED1MmTKFhQZoqfxSM-EKls",
-  authDomain: "base-asset-sharing-system.firebaseapp.com",
-  projectId: "base-asset-sharing-system",
-  storageBucket: "base-asset-sharing-system.firebasestorage.app",
-  messagingSenderId: "755120116234",
-  appId: "1:755120116234:web:f95dd55ca6637cadfd45f3"
+  apiKey: "AIzaSyDk3cBLq7K4y61Nt0MeniXaEmfMWmLTOp0",
+  authDomain: "asset-sharing-production.firebaseapp.com",
+  projectId: "asset-sharing-production",
+  storageBucket: "asset-sharing-production.firebasestorage.app",
+  messagingSenderId: "847203193870",
+  appId: "1:847203193870:web:27b59b3f3bc27e18a0d85f"
 };
 
-// Firebase 初期化
+// Firebaseの初期化
 firebase.initializeApp(firebaseConfig);
 
-// Firebase サービス
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
 // Google 認証プロバイダー
 const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-// 日本ロケーション設定
-firebase.firestore().settings({
-  ignoreUndefinedProperties: true
-});

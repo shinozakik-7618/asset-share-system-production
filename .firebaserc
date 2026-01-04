@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "base-asset-sharing-system"
-  }
+    "default": "asset-sharing-production",
+    "production": "asset-sharing-production"
+  },
+  "targets": {},
+  "etags": {}
 }
