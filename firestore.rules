@@ -1,66 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // ユーザーが認証済みかチェック
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-    
-    // 管理者かチェック
-    function isAdmin() {
-      return isAuthenticated() && 
-             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
-    }
-    
-    // 出品者本人かチェック
-    function isOwner(itemData) {
-      return isAuthenticated() && 
-             itemData.ownerUserId == request.auth.uid;
-    }
-    
-    // users コレクション
-    match /users/{userId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated() && request.auth.uid == userId;
-      allow update: if isAuthenticated() && 
-                       (request.auth.uid == userId || isAdmin());
-      allow delete: if isAdmin();
-    }
-    
-    // bases コレクション（拠点マスタ）
-    match /bases/{baseId} {
-      allow read: if isAuthenticated();
-      allow write: if isAdmin();
-    }
-    
-    // categories コレクション（分類マスタ）
-    match /categories/{categoryId} {
-      allow read: if isAuthenticated();
-      allow write: if isAdmin();
-    }
-    
-    // items コレクション（出品設備）
-    match /items/{itemId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated() &&
-                       request.resource.data.ownerUserId == request.auth.uid;
-      allow update: if isOwner(resource.data);
-      allow delete: if isOwner(resource.data);
-    }
-    
-    // transactions コレクション（取引完了履歴）
-    match /transactions/{transactionId} {
-      allow read: if isAuthenticated();
-      allow create: if false; // Cloud Functions のみ
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
-    }
-    
-    // settings コレクション（システム設定）
-    match /settings/{document} {
-      allow read: if isAuthenticated();
-      allow write: if isAdmin();
+    // 認証済みユーザーのみアクセス可能
+    match /{document=**} {
+      allow read, write: if request.auth != null;
     }
   }
 }

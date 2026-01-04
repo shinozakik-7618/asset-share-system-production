@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>拠点データコピーツール</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <h1>拠点データコピーツール</h1>
+  <button onclick="copyData()" style="padding: 20px; font-size: 18px;">データをコピー開始</button>
+  <div id="log" style="margin-top: 20px; font-family: monospace;"></div>
+
+  <script>
+    // 開発環境の設定
+    const devConfig = {
+      apiKey: "AIzaSyBtD9D_755120116234",
+      authDomain: "base-asset-sharing-system.firebaseapp.com",
+      projectId: "base-asset-sharing-system"
+    };
+
+    // 本番環境の設定
+    const prodConfig = {
+      apiKey: "AIzaSyDk3cBLq7K4y61Nt0MeniXaEmfMWmLTOp0",
+      authDomain: "asset-sharing-production.firebaseapp.com",
+      projectId: "asset-sharing-production"
+    };
+
+    // 2つのFirebaseアプリを初期化
+    const devApp = firebase.initializeApp(devConfig, 'dev');
+    const prodApp = firebase.initializeApp(prodConfig, 'prod');
+
+    const devDb = devApp.firestore();
+    const prodDb = prodApp.firestore();
+
+    function log(message) {
+      const logDiv = document.getElementById('log');
+      logDiv.innerHTML += message + '<br>';
+      console.log(message);
+    }
+
+    async function copyData() {
+      try {
+        log('📤 開発環境からデータを取得中...');
+        
+        // 開発環境からデータ取得
+        const snapshot = await devDb.collection('baseMaster').get();
+        log(`✅ ${snapshot.size}件の拠点データを取得しました`);
+        
+        log('📥 本番環境にデータをコピー中...');
+        
+        // 本番環境にコピー（50件ずつバッチ処理）
+        let count = 0;
+        let batch = prodDb.batch();
+        
+        for (const doc of snapshot.docs) {
+          const ref = prodDb.collection('baseMaster').doc(doc.id);
+          batch.set(ref, doc.data());
+          count++;
+          
+          // 500件ごとにコミット（Firestoreの制限）
+          if (count % 500 === 0) {
+            await batch.commit();
+            log(`  ${count}件コピー済み...`);
+            batch = prodDb.batch();
+          }
+        }
+        
+        // 残りをコミット
+        if (count % 500 !== 0) {
+          await batch.commit();
+        }
+        
+        log(`✅ 完了！${count}件の拠点データを本番環境にコピーしました`);
+        
+      } catch (error) {
+        log('❌ エラー: ' + error.message);
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>

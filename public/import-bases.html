@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>拠点データインポート</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <h1>拠点データインポート</h1>
+  <p>1. まずログインしてください</p>
+  <button onclick="login()" style="padding: 15px; font-size: 16px; margin: 10px;">Googleでログイン</button>
+  <br>
+  <p>2. Excelデータを貼り付けてください（タブ区切り）</p>
+  <textarea id="excelData" rows="10" cols="80" placeholder="Excelからコピー＆ペーストしてください"></textarea>
+  <br>
+  <button onclick="importData()" style="padding: 15px; font-size: 16px; margin: 10px; background: #4caf50; color: white;">インポート開始</button>
+  <div id="log" style="margin-top: 20px; font-family: monospace;"></div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDk3cBLq7K4y61Nt0MeniXaEmfMWmLTOp0",
+      authDomain: "asset-sharing-production.firebaseapp.com",
+      projectId: "asset-sharing-production"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+    function log(message) {
+      const logDiv = document.getElementById('log');
+      logDiv.innerHTML += message + '<br>';
+      console.log(message);
+    }
+
+    async function login() {
+      try {
+        await auth.signInWithPopup(googleProvider);
+        log('✅ ログイン成功: ' + auth.currentUser.email);
+      } catch (error) {
+        log('❌ ログインエラー: ' + error.message);
+      }
+    }
+
+    async function importData() {
+      if (!auth.currentUser) {
+        log('❌ 先にログインしてください');
+        return;
+      }
+
+      try {
+        const excelData = document.getElementById('excelData').value;
+        const lines = excelData.trim().split('\n');
+        
+        log('📤 データを解析中...');
+        
+        const bases = [];
+        const uniqueBases = new Set();
+        
+        for (let i = 0; i < lines.length; i++) {
+          const columns = lines[i].split('\t');
+          
+          if (columns.length < 6) continue;
+          
+          const blockName = columns[1].trim();
+          const regionName = columns[3].trim();
+          const baseName = columns[5].trim();
+          
+          if (!blockName || !regionName || !baseName) continue;
+          if (blockName === 'ブロック') continue; // ヘッダー行をスキップ
+          
+          const key = `${blockName}_${regionName}_${baseName}`;
+          if (uniqueBases.has(key)) continue;
+          uniqueBases.add(key);
+          
+          bases.push({
+            blockName: blockName,
+            regionName: regionName,
+            baseName: baseName,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+        
+        log(`✅ ${bases.length}件の拠点データを解析しました`);
+        log('📥 Firestoreにインポート中...');
+        
+        let batch = db.batch();
+        let count = 0;
+        
+        for (const base of bases) {
+          const docRef = db.collection('baseMaster').doc();
+          batch.set(docRef, base);
+          count++;
+          
+          if (count % 500 === 0) {
+            await batch.commit();
+            log(`  ${count}件インポート済み...`);
+            batch = db.batch();
+          }
+        }
+        
+        if (count % 500 !== 0) {
+          await batch.commit();
+        }
+        
+        log(`✅ 完了！${count}件の拠点データをインポートしました`);
+        
+      } catch (error) {
+        log('❌ エラー: ' + error.message);
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>

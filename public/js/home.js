@@ -110,7 +110,7 @@ async function loadBases() {
     }));
     
     // ブロック一覧を作成
-    const blocks = [...new Set(allBases.map(base => base.block).filter(Boolean))].sort();
+    const blocks = [...new Set(allBases.map(base => base.blockName).filter(Boolean))].sort();
     const blockFilter = document.getElementById('blockFilter');
     blocks.forEach(block => {
       const option = document.createElement('option');
@@ -143,7 +143,7 @@ function handleBlockChange(e) {
   baseFilter.disabled = true;
   
   if (selectedBlock) {
-    const regions = [...new Set(allBases.filter(base => base.block === selectedBlock).map(base => base.region).filter(Boolean))].sort();
+    const regions = [...new Set(allBases.filter(base => base.blockName === selectedBlock).map(base => base.regionName).filter(Boolean))].sort();
     regions.forEach(region => {
       const option = document.createElement('option');
       option.value = region;
@@ -168,7 +168,7 @@ function handleRegionChange(e) {
   baseFilter.innerHTML = '<option value="">すべての拠点</option>';
   
   if (selectedRegion) {
-    const bases = allBases.filter(base => base.block === selectedBlock && base.region === selectedRegion).sort((a, b) => (a.baseName || '').localeCompare(b.baseName || ''));
+    const bases = allBases.filter(base => base.blockName === selectedBlock && base.regionName === selectedRegion).sort((a, b) => (a.baseName || '').localeCompare(b.baseName || ''));
     bases.forEach(base => {
       const option = document.createElement('option');
       option.value = base.id;
@@ -230,7 +230,7 @@ async function loadItems() {
     console.error('データ取得エラー:', error);
     loading.style.display = 'none';
     emptyState.style.display = 'block';
-    document.querySelector('.empty-message').textContent = 'データの取得に失敗しました';
+    document.querySelector('.empty-message').textContent = (currentMainTab === 'forTransfer' ? '譲渡申請資産はありません' : '登録資産はありません');
   }
 }
 
@@ -375,7 +375,7 @@ async function loadStatistics() {
       .collection('assets')
       .where('status', '==', 'available')
       .get();
-    document.getElementById('totalAssets').textContent = allAssetsSnapshot.size;
+    const el = document.getElementById('totalAssets'); if(el) el.textContent = allAssetsSnapshot.size;
     
     // 登録資産数
     const myAssetsSnapshot = await firebase.firestore()
