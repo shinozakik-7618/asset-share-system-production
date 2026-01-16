@@ -2,7 +2,6 @@ let allBases = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
   // 拠点一覧を読み込み
-  await loadBases();
   setTimeout(loadUserInfo, 1000);
   
   // ブロック選択時
@@ -17,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // 拠点一覧読み込み
 async function loadBases() {
+  allBases = []; // 重複を防ぐためクリア
   try {
     const snapshot = await firebase.firestore().collection('baseMaster').get();
     
@@ -25,8 +25,8 @@ async function loadBases() {
       allBases.push({
         id: doc.id,
         baseName: base.baseName,
-        region: base.region || '',
-        block: base.block || ''
+        region: base.regionName || '',
+        block: base.blockName || ''
       });
     });
     
@@ -98,8 +98,8 @@ function handleRegionChange() {
     option.value = base.id;
     option.textContent = base.baseName;
     option.dataset.baseName = base.baseName;
-    option.dataset.region = base.region;
-    option.dataset.block = base.block;
+    option.dataset.region = base.regionName;
+    option.dataset.block = base.blockName;
     baseSelect.appendChild(option);
   });
   
@@ -191,3 +191,13 @@ async function loadUserInfo() {
   }
 }
 
+
+// 初期化
+firebase.auth().onAuthStateChanged(async (user) => {
+  if (user) {
+    await loadBases();
+    await loadUserInfo();
+  } else {
+    window.location.href = '/';
+  }
+});
