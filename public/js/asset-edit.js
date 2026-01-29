@@ -52,6 +52,7 @@ async function loadAsset() {
     document.getElementById('width').value = assetData.width || '';
     document.getElementById('depth').value = assetData.depth || '';
     document.getElementById('height').value = assetData.height || '';
+    document.getElementById('quantity').value = assetData.quantity || 1;
     
     // 画像を表示
     const currentImages = document.getElementById('currentImages');
@@ -94,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         memo: document.getElementById('memo').value.trim(),
         width: document.getElementById('width').value || null,
         depth: document.getElementById('depth').value || null,
+        quantity: parseInt(document.getElementById('quantity').value) || 1,
         height: document.getElementById('height').value || null,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
