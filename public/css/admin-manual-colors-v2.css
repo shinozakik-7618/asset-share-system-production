@@ -1,0 +1,69 @@
+/* 管理者マニュアル専用配色 */
+
+/* ヘッダー：深い青系 */
+.manual-header {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+}
+
+/* セクションタイトル：深い青系 */
+.section h2 {
+  background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* サイドバーアクティブ：深い青系 */
+.sidebar-nav a.active {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+}
+
+/* サイドバーホバー：深い青系 */
+.sidebar-nav a:hover {
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.1) 0%, rgba(52, 73, 94, 0.1) 100%) !important;
+  color: #2c3e50 !important;
+}
+
+/* ステップ番号：深い青系 */
+.step-number {
+  background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%) !important;
+}
+
+/* ステップ背景：深い青系 */
+.step {
+  border-left-color: #2c3e50 !important;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.03) 0%, rgba(22, 160, 133, 0.03) 100%) !important;
+}
+
+.step:hover {
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.08) 0%, rgba(22, 160, 133, 0.08) 100%) !important;
+}
+
+/* ステップ内容の強調：深い青系 */
+.step-content strong {
+  color: #2c3e50 !important;
+}
+
+/* ハイライト：深い青系 */
+.highlight {
+  background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* インフォボックス：深い青系 */
+.info-box {
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.1) 0%, rgba(22, 160, 133, 0.1) 100%) !important;
+  border-color: #2c3e50 !important;
+}
+
+/* テーブルヘッダー：深い青系 */
+.comparison-table thead {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+}
+
+/* テーブル行ホバー：深い青系 */
+.comparison-table tbody tr:hover {
+  background: rgba(44, 62, 80, 0.05) !important;
+}

@@ -8,12 +8,13 @@
   <title>🔧 管理者マニュアル - 拠点資産シェアシステム</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <link rel="stylesheet" href="/css/admin-manual-colors-v2.css">
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', Meiryo, Arial, sans-serif;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%);
       margin: 0;
       padding: 20px;
       line-height: 1.8;
@@ -28,10 +29,10 @@
     }
     h1 {
       text-align: center;
-      color: #f5576c;
+      color: #16a085;
       font-size: 36px;
       margin-bottom: 10px;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -49,7 +50,7 @@
       margin-bottom: 30px;
     }
     .btn-pdf {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%);
       color: white;
       border: none;
       padding: 12px 24px;
@@ -65,13 +66,13 @@
       box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
     }
     .toc {
-      background: linear-gradient(135deg, #fff0f5 0%, #ffe0e8 100%);
+      background: linear-gradient(135deg, #e8f4f8 0%, #d4e9f0 100%);
       padding: 25px;
       border-radius: 15px;
       margin-bottom: 40px;
     }
     .toc h2 {
-      color: #f5576c;
+      color: #16a085;
       font-size: 24px;
       margin-top: 0;
       margin-bottom: 15px;
@@ -91,13 +92,13 @@
       left: 0;
     }
     .toc-list a {
-      color: #f5576c;
+      color: #16a085;
       text-decoration: none;
       font-weight: 600;
       transition: all 0.3s;
     }
     .toc-list a:hover {
-      color: #f093fb;
+      color: #2c3e50;
       padding-left: 10px;
     }
     .section {
@@ -105,10 +106,10 @@
       padding: 30px;
       background: #fafafa;
       border-radius: 15px;
-      border-left: 5px solid #f5576c;
+      border-left: 5px solid #16a085;
     }
     .section h2 {
-      color: #f5576c;
+      color: #16a085;
       font-size: 28px;
       margin-top: 0;
       margin-bottom: 20px;
@@ -123,7 +124,7 @@
     }
     .step-number {
       display: inline-block;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%);
       color: white;
       width: 35px;
       height: 35px;
@@ -204,7 +205,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .info-table th {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #2c3e50 0%, #16a085 100%);
       color: white;
       padding: 15px;
       text-align: left;
@@ -285,13 +286,13 @@
     <div class="section" id="overview">
       <h2>🌐 1. システム概要</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">📋 システムの目的</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📋 システムの目的</h3>
       <p style="font-size: 16px; line-height: 1.8;">
         拠点資産シェアシステムは、複数の拠点間で資産を共有・譲渡するための管理システムです。<br>
         各拠点の資産を一元管理し、効率的な資産活用を実現します。
       </p>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🔑 主な機能</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🔑 主な機能</h3>
       <div class="table-wrapper">
         <table class="info-table">
           <thead>
@@ -329,7 +330,7 @@
         </table>
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🏗️ システム構成</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🏗️ システム構成</h3>
       <div class="code-box">
 【技術スタック】
 ・フロントエンド: HTML, CSS, JavaScript
@@ -345,7 +346,7 @@
     <div class="section" id="initial-setup">
       <h2>⚙️ 2. 初期設定</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">🔐 Firebaseプロジェクトの設定</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🔐 Firebaseプロジェクトの設定</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -373,7 +374,7 @@
         </div>
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">📊 Firestoreインデックスの確認</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📊 Firestoreインデックスの確認</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -399,7 +400,7 @@
         エラーメッセージのURLから自動的にインデックスを作成できます。
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🗂️ Firestoreコレクション構造</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🗂️ Firestoreコレクション構造</h3>
       
       <div class="code-box">
 【主要コレクション】
@@ -470,7 +471,7 @@
     <div class="section" id="user-management">
       <h2>👥 3. ユーザー管理</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">➕ 新規ユーザーの追加</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">➕ 新規ユーザーの追加</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -509,7 +510,7 @@
         <strong>ヒント：</strong> ユーザーは「⚙️ 設定」画面から、いつでも名前や拠点を変更できます
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🔍 ユーザー情報の確認</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🔍 ユーザー情報の確認</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -531,7 +532,7 @@
         </div>
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">❌ ユーザーの削除</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">❌ ユーザーの削除</h3>
       
       <div class="warning-box">
         <strong>注意：</strong> ユーザーを削除すると、そのユーザーが登録した資産も影響を受ける可能性があります。<br>
@@ -559,7 +560,7 @@
     <div class="section" id="base-management">
       <h2>🏢 4. 拠点マスタ管理</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">➕ 新しい拠点の追加</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">➕ 新しい拠点の追加</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -599,7 +600,7 @@
         <strong>ヒント：</strong> 拠点の階層は「ブロック > 地域 > 拠点」の3段階です
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">✏️ 拠点情報の編集</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">✏️ 拠点情報の編集</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -622,7 +623,7 @@
         拠点名変更時は、関連する資産のbaseNameも更新する必要があります。
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">📊 拠点データのエクスポート</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📊 拠点データのエクスポート</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -645,7 +646,7 @@
     <div class="section" id="transfer-approval">
       <h2>✅ 5. 譲渡申請の承認・却下</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">📋 譲渡申請の確認方法</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📋 譲渡申請の確認方法</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -678,7 +679,7 @@
         </div>
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">✅ 譲渡申請の承認</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">✅ 譲渡申請の承認</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -713,7 +714,7 @@
         <strong>承認完了！</strong> 申請者には自動的に通知が届きます
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">❌ 譲渡申請の却下</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">❌ 譲渡申請の却下</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -761,7 +762,7 @@
     <div class="section" id="expense-management">
       <h2>💰 6. 経費振替の管理</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">📊 経費振替の確認</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📊 経費振替の確認</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -789,7 +790,7 @@
         <strong>ヒント：</strong> 経費振替データは、譲渡申請が承認されると自動的に作成されます
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">➕ 手動での経費振替登録</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">➕ 手動での経費振替登録</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -820,7 +821,7 @@
         </div>
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🗑️ 経費振替の削除</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🗑️ 経費振替の削除</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -842,7 +843,7 @@
         <strong>注意：</strong> 削除した経費振替データは復元できません
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">📤 経費振替データのエクスポート</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📤 経費振替データのエクスポート</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -865,7 +866,7 @@
     <div class="section" id="statistics">
       <h2>📊 7. 統計データの確認</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">📈 統計ダッシュボードの見方</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📈 統計ダッシュボードの見方</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -903,7 +904,7 @@
         • 拠点別グラフで各拠点の資産保有状況を把握
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🔍 詳細データの確認</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🔍 詳細データの確認</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -926,7 +927,7 @@
     <div class="section" id="troubleshooting">
       <h2>🔧 8. トラブルシューティング</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">❌ よくあるエラーと対処法</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">❌ よくあるエラーと対処法</h3>
       
       <div class="warning-box">
         <strong>エラー：「The query requires an index」</strong><br>
@@ -964,7 +965,7 @@
         3. ブラウザのコンソールでエラーを確認
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🔍 デバッグ方法</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🔍 デバッグ方法</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -1000,7 +1001,7 @@
     <div class="section" id="backup">
       <h2>💾 9. バックアップとメンテナンス</h2>
       
-      <h3 style="color: #f5576c; margin-top: 30px;">📤 データのエクスポート</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📤 データのエクスポート</h3>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -1034,7 +1035,7 @@ firebase firestore:export gs://[BUCKET_NAME]/[EXPORT_PREFIX]
 firebase firestore:export gs://base-asset-sharing-system.appspot.com/backups/2024-01-02
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🔄 定期メンテナンス</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🔄 定期メンテナンス</h3>
       
       <div class="table-wrapper">
         <table class="info-table">
@@ -1065,7 +1066,7 @@ firebase firestore:export gs://base-asset-sharing-system.appspot.com/backups/202
         </table>
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">🚨 緊急時の対応</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">🚨 緊急時の対応</h3>
       
       <div class="warning-box">
         <strong>システムダウン時の対応手順：</strong><br>
@@ -1075,7 +1076,7 @@ firebase firestore:export gs://base-asset-sharing-system.appspot.com/backups/202
         4️⃣ 必要に応じてFirebaseサポートに問い合わせ
       </div>
 
-      <h3 style="color: #f5576c; margin-top: 30px;">📞 サポート連絡先</h3>
+      <h3 style="color: #16a085; margin-top: 30px;">📞 サポート連絡先</h3>
       
       <div class="success-box">
         <strong>Firebase サポート：</strong><br>
