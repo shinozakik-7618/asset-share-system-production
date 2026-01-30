@@ -169,7 +169,7 @@ async function handleSubmit(e) {
       quantity: parseInt(document.getElementById('quantity').value),
       size: document.getElementById('size').value || '',
       condition: document.getElementById('condition').value || '',
-      transferCost: parseInt(document.getElementById('transferCost').value),
+      transferCost: parseInt(document.getElementById('transferCost').value) || 0,
       usageStatus: document.querySelector('input[name="usageStatus"]:checked').value,
       notes: document.getElementById('notes').value || '',
       
