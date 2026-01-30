@@ -1,0 +1,323 @@
+/* マニュアルページ専用の強化スタイル */
+
+.manual-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ヘッダー */
+.manual-header {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.manual-header h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.manual-header p {
+  font-size: 20px;
+  opacity: 0.95;
+  margin: 0;
+}
+
+/* サイドバー付きレイアウト */
+.manual-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+/* サイドバーナビゲーション */
+.manual-sidebar {
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.sidebar-nav {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-nav h3 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 8px;
+}
+
+.sidebar-nav a {
+  display: block;
+  padding: 12px 16px;
+  color: #666;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.sidebar-nav a:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  color: #667eea;
+  transform: translateX(4px);
+}
+
+.sidebar-nav a.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* メインコンテンツ */
+.manual-content {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.section {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.section:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.section h2 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section h3 {
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 32px 0 16px 0;
+}
+
+/* ステップ表示 */
+.step {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+  border-radius: 16px;
+  border-left: 4px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.step:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  transform: translateX(4px);
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content strong {
+  color: #667eea;
+  font-size: 18px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* ヒント・注意ボックス */
+.tip-box, .warning-box, .info-box {
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin: 24px 0;
+  border-left: 4px solid;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.tip-box {
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+  border-color: #4facfe;
+}
+
+.warning-box {
+  background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+  border-color: #f5576c;
+}
+
+.info-box {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-color: #667eea;
+}
+
+.tip-box strong, .warning-box strong, .info-box strong {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* テーブル */
+.comparison-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin: 24px 0;
+}
+
+.comparison-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.comparison-table th {
+  padding: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.comparison-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.comparison-table tbody tr {
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.comparison-table tbody tr:hover {
+  background: rgba(102, 126, 234, 0.05);
+  transform: scale(1.01);
+}
+
+/* ハイライト */
+.highlight {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* レスポンシブ */
+@media (max-width: 1024px) {
+  .manual-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .manual-sidebar {
+    position: static;
+  }
+  
+  .sidebar-nav {
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .manual-header h1 {
+    font-size: 32px;
+  }
+  
+  .section {
+    padding: 24px 20px;
+  }
+  
+  .section h2 {
+    font-size: 24px;
+  }
+  
+  .step {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .comparison-table {
+    font-size: 14px;
+  }
+  
+  .comparison-table th,
+  .comparison-table td {
+    padding: 12px 8px;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -1,0 +1,206 @@
+/* ========================================
+   モダン & スタイリッシュ 共通スタイル
+   ======================================== */
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.2);
+  --border-radius: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* グローバル設定 */
+* {
+  transition: var(--transition);
+}
+
+body {
+  font-family: 'Segoe UI', 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* ボタンのモダン化 */
+button, .btn, input[type="submit"] {
+  background: var(--primary-gradient);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 12px 28px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--card-shadow);
+  transform: translateY(0);
+}
+
+button:hover, .btn:hover, input[type="submit"]:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-2px);
+}
+
+button:active, .btn:active, input[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* カードデザイン */
+.card, .asset-card, .form-group, .section {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 20px;
+}
+
+.card:hover, .asset-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-4px);
+}
+
+/* 入力フィールドのモダン化 */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 16px;
+  transition: var(--transition);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* ヘッダーのモダン化 */
+header, .header {
+  background: var(--primary-gradient);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(10px);
+}
+
+/* ナビゲーションメニュー */
+nav, .nav, .menu {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  padding: 8px;
+}
+
+nav a, .nav a, .menu a {
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin: 4px;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+nav a:hover, .nav a:hover, .menu a:hover {
+  background: var(--primary-gradient);
+  color: white;
+  transform: translateX(4px);
+}
+
+/* テーブルのモダン化 */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+thead {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+tbody tr:hover {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+/* バッジ・タグ */
+.badge, .tag, .status {
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge.success, .status.success {
+  background: var(--success-gradient);
+  color: white;
+}
+
+.badge.warning, .status.warning {
+  background: var(--secondary-gradient);
+  color: white;
+}
+
+/* アニメーション */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* ローディング */
+.loading {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .card, .asset-card {
+    padding: 16px;
+  }
+  
+  button, .btn {
+    width: 100%;
+    margin: 8px 0;
+  }
+}
+
+/* スクロールバーのカスタマイズ */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-gradient);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-gradient);
+}
