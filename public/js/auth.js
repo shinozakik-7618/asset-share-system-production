@@ -3,16 +3,37 @@
 let currentUser = null;
 
 // ログイン状態の監視
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged(async (user) => {
   currentUser = user;
   
   if (user) {
     console.log('ログイン成功:', user.email);
     
-    // ログインページから来た場合はホームへリダイレクト
+    // ログインページから来た場合
     if (window.location.pathname === '/index.html' || window.location.pathname === '/') {
-      window.location.href = '/home.html';
-      return;
+      
+      // ユーザー情報を確認（拠点設定済みか？）
+      try {
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        const userData = userDoc.data();
+        
+        // 拠点未設定の場合は設定画面へ
+        if (!userData || !userData.baseId) {
+          console.log('拠点未設定のため設定画面へ');
+          window.location.href = '/user-register.html';
+          return;
+        }
+        
+        // 拠点設定済みの場合はホームへ
+        window.location.href = '/home.html';
+        return;
+        
+      } catch (error) {
+        console.error('ユーザー情報取得エラー:', error);
+        // エラーの場合もホームへ（フォールバック）
+        window.location.href = '/home.html';
+        return;
+      }
     }
     
     // Firestore保存は非同期で実行（リダイレクトをブロックしない）
