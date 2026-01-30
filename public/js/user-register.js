@@ -98,8 +98,8 @@ function handleRegionChange() {
     option.value = base.id;
     option.textContent = base.baseName;
     option.dataset.baseName = base.baseName;
-    option.dataset.region = base.regionName;
-    option.dataset.block = base.blockName;
+    option.dataset.region = base.region;
+    option.dataset.block = base.block;
     baseSelect.appendChild(option);
   });
   
@@ -166,15 +166,15 @@ async function loadUserInfo() {
       document.getElementById('displayName').value = userData.displayName || '';
       
       // 拠点情報を設定（ブロック・地域・拠点の順に設定）
-      if (userData.block) {
+      if (userData.blockName) {
         const blockSelect = document.getElementById('block');
-        blockSelect.value = userData.block;
+        blockSelect.value = userData.blockName;
         handleBlockChange(); // 地域リストを更新
         
         setTimeout(() => {
-          if (userData.region) {
+          if (userData.regionName) {
             const regionSelect = document.getElementById('region');
-            regionSelect.value = userData.region;
+            regionSelect.value = userData.regionName;
             handleRegionChange(); // 拠点リストを更新
             
             setTimeout(() => {
