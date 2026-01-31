@@ -136,8 +136,8 @@ async function handleSubmit(e) {
     // localStorageに保存
     localStorage.setItem('selectedBaseId', userData.baseId);
     localStorage.setItem('selectedBaseName', userData.baseName);
-    localStorage.setItem('selectedRegion', userData.region);
-    localStorage.setItem('selectedBlock', userData.block);
+    localStorage.setItem('selectedRegion', userData.regionName);
+    localStorage.setItem('selectedBlock', userData.blockName);
     
     alert('ユーザー登録が完了しました！');
     window.location.href = '/home.html';
@@ -166,15 +166,15 @@ async function loadUserInfo() {
       document.getElementById('displayName').value = userData.displayName || '';
       
       // 拠点情報を設定（ブロック・地域・拠点の順に設定）
-      if (userData.blockName) {
+      if (userData.block) {
         const blockSelect = document.getElementById('block');
-        blockSelect.value = userData.blockName;
+        blockSelect.value = userData.block;
         handleBlockChange(); // 地域リストを更新
         
         setTimeout(() => {
-          if (userData.regionName) {
+          if (userData.region) {
             const regionSelect = document.getElementById('region');
-            regionSelect.value = userData.regionName;
+            regionSelect.value = userData.region;
             handleRegionChange(); // 拠点リストを更新
             
             setTimeout(() => {
