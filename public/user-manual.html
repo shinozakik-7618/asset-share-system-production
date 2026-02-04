@@ -253,19 +253,21 @@
     <div class="toc">
       <h2>📖 目次</h2>
       <ul class="toc-list">
-        <li><a href="#login">1. ログイン方法</a></li>
-        <li><a href="#register">2. 資産を登録する</a></li>
-        <li><a href="#edit">3. 資産を編集・削除する</a></li>
-        <li><a href="#public-difference">4. 「公開」と「譲渡資産として公開」の違い</a></li>
-        <li><a href="#transfer">5. 譲渡申請の方法</a></li>
-        <li><a href="#statistics">6. 統計画面の見方</a></li>
-        <li><a href="#notifications">7. 通知の使い方</a></li>
-        <li><a href="#settings">8. 設定画面での情報変更</a></li>
-        <li><a href="#faq">9. よくある質問（FAQ）</a></li>
+      <ul class="toc-list">
+        <li><a href="#login">🔐 1. ログイン方法</a></li>
+        <li><a href="#register">📝 2. 資産を登録する</a></li>
+        <li><a href="#edit">✏️ 3. 資産を編集・削除する</a></li>
+        <li><a href="#status">🎯 4. 「公開」と「譲渡資産として公開」の違い</a></li>
+        <li><a href="#transfer">🔄 5. 譲渡申請の方法</a></li>
+        <li><a href="#statistics">📊 6. 統計画面の見方</a></li>
+        <li><a href="#notifications">🔔 7. 通知の使い方</a></li>
+        <li><a href="#inventory">📦 8. 棚卸機能の使い方</a></li>
+        <li><a href="#csv">📥 9. CSVエクスポート機能</a></li>
+        <li><a href="#settings">⚙️ 10. 設定画面での情報変更</a></li>
+        <li><a href="#faq">❓ 11. よくある質問（FAQ）</a></li>
+        <li><a href="#support">📞 サポート情報</a></li>
       </ul>
-    </div>
 
-    <!-- 1. ログイン方法 -->
     <div class="section" id="login">
       <h2>🔐 1. ログイン方法</h2>
       
@@ -574,7 +576,88 @@
 
     <!-- 8. 設定画面での情報変更 -->
     <div class="section" id="settings">
-      <h2>⚙️ 8. 設定画面での情報変更</h2>
+
+    <!-- 棚卸機能 -->
+    <section class="manual-section">
+      <h2>📦 8. 棚卸機能の使い方</h2>
+      <p>資産の棚卸をQRコードスキャンで効率的に実施できます。</p>
+      
+      <h3 style="color: #667eea; margin-top: 30px;">📋 棚卸の流れ</h3>
+      <div class="step-box">
+        <strong>Step 1: 棚卸開始</strong><br>
+        ホーム画面の「📦 棚卸」ボタンをクリック → 「📦 棚卸開始」ボタンをクリック
+      </div>
+      
+      <div class="step-box">
+        <strong>Step 2: QRスキャン（1次カウント）</strong><br>
+        • 資産のQRコードをスマホでスキャン<br>
+        • スキャンするたびに「スキャン済み: X 件」が増える<br>
+        • すべてスキャンしたら「✅ 1次カウント完了」をクリック
+      </div>
+      
+      <div class="step-box">
+        <strong>Step 3: 差異確認</strong><br>
+        • システム数量とスキャン数量が一致しない資産のみ表示<br>
+        • 一致している資産は非表示<br>
+        • 「すべて表示」ボタンで全資産を確認可能
+      </div>
+      
+      <div class="step-box">
+        <strong>Step 4: 2次カウント（目視確認）</strong><br>
+        • 差異がある資産を目視で再カウント<br>
+        • 正しい数量を入力して「✅ 確定」ボタンをクリック<br>
+        • 「✅ 2次カウント完了」をクリック
+      </div>
+      
+      <div class="step-box">
+        <strong>Step 5: 最終確認と保存</strong><br>
+        • 最終差異を確認<br>
+        • 「💾 棚卸確定」ボタンをクリック<br>
+        • 資産の数量が更新され、差異履歴が保存されます
+      </div>
+      
+      <div class="tip-box">
+        <strong>💡 ヒント：</strong><br>
+        • 棚卸は自分の拠点の資産のみ対象です<br>
+        • 差異がある資産のみ履歴に保存されます<br>
+        • スマホのカメラ許可が必要です
+      </div>
+    </section>
+    
+    <!-- CSVエクスポート機能 -->
+    <section class="manual-section">
+      <h2>📥 9. CSVエクスポート機能</h2>
+      <p>資産一覧をCSV形式でダウンロードできます。</p>
+      
+      <div class="step-box">
+        <strong>Step 1: CSVダウンロード</strong><br>
+        ホーム画面の「📥 CSVダウンロード」ボタンをクリック
+      </div>
+      
+      <div class="step-box">
+        <strong>Step 2: ファイルを開く</strong><br>
+        • ダウンロードされたCSVファイルをExcelで開く<br>
+        • ファイル名：資産一覧_拠点名_日付.csv
+      </div>
+      
+      <h3 style="color: #667eea; margin-top: 30px;">📊 出力される情報</h3>
+      <ul class="feature-list">
+        <li>資産名、大分類、中分類</li>
+        <li>数量、金額（税抜）</li>
+        <li>サイズ、メモ</li>
+        <li>所有拠点、ブロック、地域</li>
+        <li>登録日、利用状況</li>
+        <li>QRコード</li>
+      </ul>
+      
+      <div class="tip-box">
+        <strong>💡 ヒント：</strong><br>
+        • 自分の拠点の資産のみエクスポートされます<br>
+        • Excelで正しく開けるようBOM付きUTF-8で保存されます
+      </div>
+    </section>
+
+      <h2>⚙️ 10. 設定画面での情報変更</h2>
       
       <div class="step">
         <span class="step-number">1</span>
@@ -618,7 +701,7 @@
 
     <!-- 9. よくある質問（FAQ） -->
     <div class="section" id="faq">
-      <h2>❓ 9. よくある質問（FAQ）</h2>
+      <h2>❓ 11. よくある質問（FAQ）</h2>
       
       <div class="faq-item">
         <div class="faq-question">Q. パスワードを忘れた場合はどうすればいいですか？</div>
