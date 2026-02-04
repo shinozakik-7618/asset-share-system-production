@@ -1,0 +1,201 @@
+/* 棚卸画面専用スタイル */
+
+.inventory-section {
+  margin: 20px 0;
+}
+
+.scan-info {
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #e8f4f8 0%, #d4e9f0 100%);
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.scan-info p {
+  font-size: 18px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.scan-info strong {
+  color: #1976d2;
+  font-size: 24px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  border: 2px solid #e0e0e0;
+  background: #f5f5f5;
+  color: #333;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background: #e8e8e8;
+  border-color: #1976d2;
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inventory-item {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.inventory-item:hover {
+  border-color: #1976d2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-item.has-difference {
+  border-color: #ff9800;
+  background: #fff8e1;
+}
+
+.inventory-item.no-difference {
+  border-color: #4caf50;
+  background: #f1f8f4;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.item-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.item-badge {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.badge-ok {
+  background: #4caf50;
+  color: white;
+}
+
+.badge-diff {
+  background: #ff9800;
+  color: white;
+}
+
+.item-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.detail-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.detail-value.diff {
+  color: #ff9800;
+}
+
+.count-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.count-input label {
+  font-weight: 600;
+  color: #333;
+}
+
+.count-input input {
+  width: 100px;
+  padding: 8px;
+  border: 2px solid #1976d2;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.count-input button {
+  padding: 8px 16px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.count-input button:hover {
+  background: #1565c0;
+  transform: translateY(-2px);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .item-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-controls {
+    flex-direction: column;
+  }
+  
+  .count-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .count-input input {
+    width: 100%;
+  }
+}

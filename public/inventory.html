@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📦 棚卸 - 拠点資産シェアシステム</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/modern-style.css">
+  <link rel="stylesheet" href="/css/inventory.css">
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <button onclick="location.href='/home.html'" class="btn-back" style="background: white; color: #1976d2; border: 2px solid #1976d2; border-radius: 25px; padding: 8px 16px; font-size: 14px;">🏠 ホームに戻る</button>
+      <h1>📦 棚卸管理</h1>
+    </header>
+
+    <!-- 棚卸開始画面 -->
+    <div id="inventoryStart" class="inventory-section">
+      <div class="card">
+        <h2>📋 棚卸を開始します</h2>
+        <p>QRコードをスキャンして資産をカウントしてください</p>
+        <button id="startInventoryBtn" class="btn-primary" style="border-radius: 25px; padding: 15px 30px; font-size: 18px; margin-top: 20px;">📦 棚卸開始</button>
+      </div>
+    </div>
+
+    <!-- QRスキャナー画面 -->
+    <div id="scannerSection" class="inventory-section" style="display: none;">
+      <div class="card">
+        <h2>📷 QRコードスキャン（1次カウント）</h2>
+        <div id="qrReader" style="width: 100%; max-width: 500px; margin: 20px auto;"></div>
+        <div class="scan-info">
+          <p>スキャン済み: <strong id="scannedCount">0</strong> 件</p>
+          <button id="finishScanBtn" class="btn-primary" style="border-radius: 25px; padding: 12px 24px; margin-top: 20px;">✅ 1次カウント完了</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 差異確認画面（1次カウント結果） -->
+    <div id="firstCountResult" class="inventory-section" style="display: none;">
+      <div class="card">
+        <h2>📊 1次カウント結果</h2>
+        <div class="filter-controls">
+          <button id="showAllBtn" class="filter-btn">すべて表示</button>
+          <button id="hideMatchBtn" class="filter-btn active">差異のみ表示</button>
+        </div>
+        <div id="firstCountList" class="inventory-list"></div>
+        <button id="startSecondCountBtn" class="btn-primary" style="border-radius: 25px; padding: 12px 24px; margin-top: 20px;">🔍 2次カウント開始</button>
+      </div>
+    </div>
+
+    <!-- 2次カウント画面 -->
+    <div id="secondCountSection" class="inventory-section" style="display: none;">
+      <div class="card">
+        <h2>🔍 2次カウント（目視確認）</h2>
+        <p>差異のある資産を目視でカウントして数量を入力してください</p>
+        <div id="secondCountList" class="inventory-list"></div>
+        <button id="finishSecondCountBtn" class="btn-primary" style="border-radius: 25px; padding: 12px 24px; margin-top: 20px;">✅ 2次カウント完了</button>
+      </div>
+    </div>
+
+    <!-- 最終確認画面 -->
+    <div id="finalResult" class="inventory-section" style="display: none;">
+      <div class="card">
+        <h2>✅ 最終確認</h2>
+        <div id="finalResultList" class="inventory-list"></div>
+        <button id="confirmInventoryBtn" class="btn-primary" style="border-radius: 25px; padding: 15px 30px; font-size: 18px; margin-top: 20px;">💾 棚卸確定</button>
+      </div>
+    </div>
+
+    <!-- 完了画面 -->
+    <div id="completeSection" class="inventory-section" style="display: none;">
+      <div class="card">
+        <h2>🎉 棚卸完了</h2>
+        <p>棚卸結果を保存しました</p>
+        <button onclick="location.href='/home.html'" class="btn-primary" style="border-radius: 25px; padding: 12px 24px; margin-top: 20px;">🏠 ホームに戻る</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/inventory.js"></script>
+</body>
+</html>
