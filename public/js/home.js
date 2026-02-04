@@ -596,3 +596,26 @@ firebase.auth().onAuthStateChanged((user) => {
     setInterval(updateNotificationBadge, 30000);
   }
 });
+
+
+// 管理者ボタンの表示制御（DOMの読み込み完了後）
+document.addEventListener('DOMContentLoaded', () => {
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (!user) return;
+    
+    try {
+      const userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
+      const userData = userDoc.data();
+      
+      if (userData && userData.isAdmin) {
+        const adminBtn = document.getElementById('adminManualBtn');
+        if (adminBtn) {
+          adminBtn.style.display = 'inline-block';
+          console.log('管理者メニュー表示');
+        }
+      }
+    } catch (error) {
+      console.error('管理者チェックエラー:', error);
+    }
+  });
+});

@@ -1102,5 +1102,26 @@ firebase firestore:export gs://base-asset-sharing-system.appspot.com/backups/202
       window.print();
     }
   </script>
+  <script>
+  // 管理者チェック
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (!user) {
+      window.location.href = "/index.html";
+      return;
+    }
+    
+    const userDoc = await firebase.firestore().collection("users").doc(user.uid).get();
+    const userData = userDoc.data();
+    
+    if (!userData || !userData.isAdmin) {
+      alert("管理者権限がありません");
+      window.location.href = "/home.html";
+      return;
+    }
+    
+    console.log("管理者確認OK");
+  });
+  </script>
+
 </body>
 </html>
