@@ -415,7 +415,7 @@ async function loadStatistics() {
 document.addEventListener('DOMContentLoaded', () => {
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    loadStatistics().then(() => loadDetailedStats());
+    // loadStatistics() // 統計は/statistics.htmlで表示.then(() => loadDetailedStats());
   }
 });
 });
@@ -598,3 +598,32 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 
+
+// 管理者ボタンの表示制御
+setTimeout(() => {
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (!user) return;
+    
+    try {
+      const userDoc = await firebase.firestore().collection('users').doc(user.uid).get({ source: 'server' });
+      const userData = userDoc.data();
+      
+      console.log('👤 管理者チェック - ユーザー情報:', userData);
+      console.log('🔑 管理者チェック - isAdmin:', userData.isAdmin);
+      
+      if (userData && userData.isAdmin) {
+        const adminBtn = document.getElementById('adminManualBtn');
+        if (adminBtn) {
+          adminBtn.style.display = 'inline-block';
+          console.log('✅ 管理者ボタンを表示しました');
+        } else {
+          console.log('⚠️ adminManualBtnが見つかりません');
+        }
+      } else {
+        console.log('ℹ️ 管理者権限なし');
+      }
+    } catch (error) {
+      console.error('❌ 管理者チェックエラー:', error);
+    }
+  });
+}, 1000);
