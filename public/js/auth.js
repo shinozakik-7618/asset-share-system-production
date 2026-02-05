@@ -36,13 +36,22 @@ auth.onAuthStateChanged(async (user) => {
       }
     }
     
-    // Firestore保存は非同期で実行（リダイレクトをブロックしない）
-    db.collection('users').doc(user.uid).set({
+    // Firestore保存（updateで既存フィールドを保持）
+    db.collection('users').doc(user.uid).update({
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
       lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
-    }, { merge: true }).catch(err => console.error('保存エラー:', err));
+    }).catch(err => {
+      // 新規ユーザーの場合はset
+      console.log('新規ユーザー登録');
+      db.collection('users').doc(user.uid).set({
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    });
     
   } else {
     console.log('未ログイン');

@@ -616,6 +616,14 @@ setTimeout(() => {
         if (adminBtn) {
           adminBtn.style.display = 'inline-block';
           console.log('✅ 管理者ボタンを表示しました');
+        
+        const adminInventoryBtn = document.getElementById('adminInventoryBtn');
+        if (adminInventoryBtn) {
+          adminInventoryBtn.style.display = 'inline-block';
+          console.log('✅ 棚卸実施状況ボタンを表示しました');
+        } else {
+          console.log('⚠️ adminInventoryBtnが見つかりません');
+        }
         } else {
           console.log('⚠️ adminManualBtnが見つかりません');
         }
