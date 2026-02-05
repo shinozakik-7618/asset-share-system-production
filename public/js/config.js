@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
-const storage = firebase.storage();
+const storage = firebase.storage ? firebase.storage() : null; // Storage SDKがない場合はnull
 
 // Google 認証プロバイダー
 const googleProvider = new firebase.auth.GoogleAuthProvider();
